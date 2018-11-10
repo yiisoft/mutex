@@ -5,7 +5,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace yiiunit\framework\mutex;
+namespace yii\mutex\tests\unit;
 
 use yii\base\InvalidConfigException;
 use yii\mutex\Mutex;

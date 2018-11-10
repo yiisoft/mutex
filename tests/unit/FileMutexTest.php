@@ -5,7 +5,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace yiiunit\framework\mutex;
+namespace yii\mutex\tests\unit;
 
 use yii\base\InvalidConfigException;
 use yii\mutex\FileMutex;
@@ -16,7 +16,7 @@ use yiiunit\TestCase;
  *
  * @group mutex
  */
-class FileMutexTest extends TestCase
+class FileMutexTest extends \PHPUnit\Framework\TestCase
 {
     use MutexTestTrait;
 
