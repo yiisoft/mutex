@@ -7,36 +7,28 @@
 
 namespace yii\mutex;
 
-use yii\base\InvalidConfigException;
-use yii\db\Connection;
-use yii\di\Instance;
-
 /**
  * DbMutex is the base class for classes, which relies on database while implementing mutex "lock" mechanism.
  *
  * @see Mutex
- *
- * @author resurtm <resurtm@gmail.com>
- * @since 2.0
  */
 abstract class DbMutex extends Mutex
 {
     /**
-     * @var Connection|array|string the DB connection object or the application component ID of the DB connection.
-     * After the Mutex object is created, if you want to change this property, you should only assign
-     * it with a DB connection object.
-     * Starting from version 2.0.2, this can also be a configuration array for creating the object.
+     * @var \PDO
      */
-    public $db = 'db';
-
+    protected $connection;
 
     /**
-     * Initializes generic database table based mutex implementation.
-     * @throws InvalidConfigException if [[db]] is invalid.
+     * DbMutex constructor.
+     * @param \PDO $connection
+     * @param bool $autoRelease whether all locks acquired in this process (i.e. local locks) must be released
+     * automatically before finishing script execution. Defaults to true. Setting this property to true means that
+     * all locks acquired in this process must be released (regardless of errors or exceptions).
      */
-    public function init()
+    public function __construct(\PDO $connection, $autoRelease = true)
     {
-        parent::init();
-        $this->db = Instance::ensure($this->db, Connection::class);
+        parent::__construct($autoRelease);
+        $this->connection = $connection;
     }
 }

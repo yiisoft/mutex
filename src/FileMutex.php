@@ -7,26 +7,10 @@
 
 namespace yii\mutex;
 
-use Yii;
-use yii\base\InvalidConfigException;
-use yii\helpers\FileHelper;
-
 /**
  * FileMutex implements mutex "lock" mechanism via local file system files.
  *
  * This component relies on PHP `flock()` function.
- *
- * Application configuration example:
- *
- * ```php
- * [
- *     'components' => [
- *         'mutex' => [
- *             'class' => 'yii\mutex\FileMutex'
- *         ],
- *     ],
- * ]
- * ```
  *
  * > Note: this component can maintain the locks only for the single web server,
  * > it probably will not suffice in case you are using cloud server solution.
@@ -35,9 +19,6 @@ use yii\helpers\FileHelper;
  * > using a multithreaded server API like ISAPI.
  *
  * @see Mutex
- *
- * @author resurtm <resurtm@gmail.com>
- * @since 2.0
  */
 class FileMutex extends Mutex
 {
@@ -45,9 +26,8 @@ class FileMutex extends Mutex
 
     /**
      * @var string the directory to store mutex files. You may use [path alias](guide:concept-aliases) here.
-     * Defaults to the "mutex" subdirectory under the application runtime path.
      */
-    public $mutexPath = '@runtime/mutex';
+    private $mutexPath;
     /**
      * @var int the permission to be set for newly created mutex files.
      * This value will be used by PHP chmod() function. No umask will be applied.
@@ -72,23 +52,50 @@ class FileMutex extends Mutex
     /**
      * @var resource[] stores all opened lock files. Keys are lock names and values are file handles.
      */
-    private $_files = [];
+    private $files = [];
 
-
-    /**
-     * Initializes mutex component implementation dedicated for UNIX, GNU/Linux, Mac OS X, and other UNIX-like
-     * operating systems.
-     * @throws InvalidConfigException
-     */
-    public function init()
+    public function __construct($mutexPath, $autoRelease = true)
     {
-        parent::init();
-        $this->mutexPath = Yii::getAlias($this->mutexPath);
+        parent::__construct($autoRelease);
+
+        $this->mutexPath = $mutexPath;
+
         if (!is_dir($this->mutexPath)) {
-            FileHelper::createDirectory($this->mutexPath, $this->dirMode, true);
+            $this->createDirectoryRecursively($this->mutexPath, $this->dirMode);
         }
         if ($this->isWindows === null) {
             $this->isWindows = DIRECTORY_SEPARATOR === '\\';
+        }
+    }
+
+    protected function createDirectoryRecursively($path, $mode)
+    {
+        $parentDir = dirname($path);
+        // recurse if parent dir does not exist and we are not at the root of the file system.
+        if ($parentDir !== $path && !is_dir($parentDir)) {
+            $this->createDirectoryRecursively($parentDir, $mode);
+        }
+        try {
+            if (!mkdir($path, $mode)) {
+                return false;
+            }
+        } catch (\Exception $e) {
+            if (!is_dir($path)) {// https://github.com/yiisoft/yii2/issues/9288
+                throw new \RuntimeException(
+                    "Failed to create directory \"$path\": " . $e->getMessage(),
+                    $e->getCode(),
+                    $e
+                );
+            }
+        }
+        try {
+            return chmod($path, $mode);
+        } catch (\Exception $e) {
+            throw new \RuntimeException(
+                "Failed to change permissions for directory \"$path\": " . $e->getMessage(),
+                $e->getCode(),
+                $e
+            );
         }
     }
 
@@ -102,7 +109,7 @@ class FileMutex extends Mutex
     {
         $filePath = $this->getLockFilePath($name);
         return $this->retryAcquire($timeout, function () use ($filePath, $name) {
-            $file = fopen($filePath, 'w+');
+            $file = fopen($filePath, 'wb+');
             if ($file === false) {
                 return false;
             }
@@ -116,9 +123,11 @@ class FileMutex extends Mutex
                 return false;
             }
 
-            // Under unix we delete the lock file before releasing the related handle. Thus it's possible that we've acquired a lock on
-            // a non-existing file here (race condition). We must compare the inode of the lock file handle with the inode of the actual lock file.
-            // If they do not match we simply continue the loop since we can assume the inodes will be equal on the next try.
+            // Under unix we delete the lock file before releasing the related handle. Thus it's possible that we've
+            // acquired a lock on a non-existing file here (race condition). We must compare the inode of the lock file
+            // handle with the inode of the actual lock file.
+            // If they do not match we simply continue the loop since we can assume the inodes will be equal on the
+            // next try.
             // Example of race condition without inode-comparison:
             // Script A: locks file
             // Script B: opens file
@@ -133,7 +142,7 @@ class FileMutex extends Mutex
                 return false;
             }
 
-            $this->_files[$name] = $file;
+            $this->files[$name] = $file;
             return true;
         });
     }
@@ -145,25 +154,25 @@ class FileMutex extends Mutex
      */
     protected function releaseLock($name)
     {
-        if (!isset($this->_files[$name])) {
+        if (!isset($this->files[$name])) {
             return false;
         }
 
         if ($this->isWindows) {
             // Under windows it's not possible to delete a file opened via fopen (either by own or other process).
             // That's why we must first unlock and close the handle and then *try* to delete the lock file.
-            flock($this->_files[$name], LOCK_UN);
-            fclose($this->_files[$name]);
+            flock($this->files[$name], LOCK_UN);
+            fclose($this->files[$name]);
             @unlink($this->getLockFilePath($name));
         } else {
             // Under unix it's possible to delete a file opened via fopen (either by own or other process).
             // That's why we must unlink (the currently locked) lock file first and then unlock and close the handle.
             unlink($this->getLockFilePath($name));
-            flock($this->_files[$name], LOCK_UN);
-            fclose($this->_files[$name]);
+            flock($this->files[$name], LOCK_UN);
+            fclose($this->files[$name]);
         }
 
-        unset($this->_files[$name]);
+        unset($this->files[$name]);
         return true;
     }
 
@@ -171,9 +180,8 @@ class FileMutex extends Mutex
      * Generate path for lock file.
      * @param string $name
      * @return string
-     * @since 2.0.10
      */
-    protected function getLockFilePath($name)
+    public function getLockFilePath($name)
     {
         return $this->mutexPath . DIRECTORY_SEPARATOR . md5($name) . '.lock';
     }

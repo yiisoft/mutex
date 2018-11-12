@@ -8,7 +8,6 @@
 namespace yii\mutex\tests\unit;
 
 use yii\mutex\MysqlMutex;
-use yiiunit\framework\db\DatabaseTestCase;
 
 /**
  * Class MysqlMutexTest.
@@ -17,21 +16,20 @@ use yiiunit\framework\db\DatabaseTestCase;
  * @group db
  * @group mysql
  */
-class MysqlMutexTest extends DatabaseTestCase
+class MysqlMutexTest
 {
     use MutexTestTrait;
 
-    protected $driverName = 'mysql';
-
     /**
      * @return MysqlMutex
-     * @throws \yii\base\InvalidConfigException
      */
     protected function createMutex()
     {
-        return \Yii::createObject([
-            'class' => MysqlMutex::class,
-            'db' => $this->getConnection(),
-        ]);
+        return new MysqlMutex($this->getConnection());
+    }
+
+    private function getConnection()
+    {
+        // TODO: create MySQL connection here
     }
 }

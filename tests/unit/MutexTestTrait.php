@@ -7,7 +7,6 @@
 
 namespace yii\mutex\tests\unit;
 
-use yii\base\InvalidConfigException;
 use yii\mutex\Mutex;
 
 /**
@@ -17,7 +16,6 @@ trait MutexTestTrait
 {
     /**
      * @return Mutex
-     * @throws InvalidConfigException
      */
     abstract protected function createMutex();
 

@@ -7,9 +7,7 @@
 
 namespace yii\mutex\tests\unit;
 
-use yii\base\InvalidConfigException;
 use yii\mutex\FileMutex;
-use yiiunit\TestCase;
 
 /**
  * Class FileMutexTest.
@@ -22,31 +20,26 @@ class FileMutexTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @return FileMutex
-     * @throws InvalidConfigException
+     * @throws \RuntimeException
      */
     protected function createMutex()
     {
-        return \Yii::createObject([
-            'class' => FileMutex::class,
-            'mutexPath' => '@yiiunit/runtime/mutex',
-        ]);
+        return new FileMutex(sys_get_temp_dir());
     }
 
     /**
      * @dataProvider mutexDataProvider()
      *
      * @param string $mutexName
-     * @throws InvalidConfigException
      */
     public function testDeleteLockFile($mutexName)
     {
         $mutex = $this->createMutex();
-        $fileName = $mutex->mutexPath . '/' . md5($mutexName) . '.lock';
 
         $mutex->acquire($mutexName);
-        $this->assertFileExists($fileName);
+        $this->assertFileExists($mutex->getLockFilePath($mutexName));
 
         $mutex->release($mutexName);
-        $this->assertFileNotExists($fileName);
+        $this->assertFileNotExists($mutex->getLockFilePath($mutexName));
     }
 }

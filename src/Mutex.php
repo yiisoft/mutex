@@ -7,8 +7,6 @@
 
 namespace yii\mutex;
 
-use yii\base\Component;
-
 /**
  * The Mutex component allows mutual execution of concurrent processes in order to prevent "race conditions".
  *
@@ -26,32 +24,24 @@ use yii\base\Component;
  * ```
  *
  * This is a base class, which should be extended in order to implement the actual lock mechanism.
- *
- * @author resurtm <resurtm@gmail.com>
- * @since 2.0
  */
-abstract class Mutex extends Component
+abstract class Mutex
 {
-    /**
-     * @var bool whether all locks acquired in this process (i.e. local locks) must be released automatically
-     * before finishing script execution. Defaults to true. Setting this property to true means that all locks
-     * acquired in this process must be released (regardless of errors or exceptions).
-     */
-    public $autoRelease = true;
-
     /**
      * @var string[] names of the locks acquired by the current PHP process.
      */
-    private $_locks = [];
-
+    private $locks = [];
 
     /**
-     * Initializes the Mutex component.
+     * Mutex constructor.
+     * @param bool $autoRelease whether all locks acquired in this process (i.e. local locks) must be released
+     * automatically before finishing script execution. Defaults to true. Setting this property to true means that
+     * all locks acquired in this process must be released (regardless of errors or exceptions).
      */
-    public function init()
+    public function __construct($autoRelease = true)
     {
-        if ($this->autoRelease) {
-            $locks = &$this->_locks;
+        if ($autoRelease) {
+            $locks = &$this->locks;
             register_shutdown_function(function () use (&$locks) {
                 foreach ($locks as $lock) {
                     $this->release($lock);
@@ -63,14 +53,14 @@ abstract class Mutex extends Component
     /**
      * Acquires a lock by name.
      * @param string $name of the lock to be acquired. Must be unique.
-     * @param int $timeout time (in seconds) to wait for lock to be released. Defaults to zero meaning that method will return
-     * false immediately in case lock was already acquired.
+     * @param int $timeout time (in seconds) to wait for lock to be released. Defaults to zero meaning that method
+     * will return false immediately in case lock was already acquired.
      * @return bool lock acquiring result.
      */
     public function acquire($name, $timeout = 0)
     {
-        if (!in_array($name, $this->_locks, true) && $this->acquireLock($name, $timeout)) {
-            $this->_locks[] = $name;
+        if (!in_array($name, $this->locks, true) && $this->acquireLock($name, $timeout)) {
+            $this->locks[] = $name;
 
             return true;
         }
@@ -86,9 +76,9 @@ abstract class Mutex extends Component
     public function release($name)
     {
         if ($this->releaseLock($name)) {
-            $index = array_search($name, $this->_locks);
+            $index = array_search($name, $this->locks);
             if ($index !== false) {
-                unset($this->_locks[$index]);
+                unset($this->locks[$index]);
             }
 
             return true;

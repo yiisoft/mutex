@@ -7,44 +7,21 @@
 
 namespace yii\mutex;
 
-use yii\base\InvalidConfigException;
-
 /**
  * MysqlMutex implements mutex "lock" mechanism via MySQL locks.
  *
- * Application configuration example:
- *
- * ```
- * [
- *     'components' => [
- *         'db' => [
- *             'class' => 'yii\db\Connection',
- *             'dsn' => 'mysql:host=127.0.0.1;dbname=demo',
- *         ]
- *         'mutex' => [
- *             'class' => 'yii\mutex\MysqlMutex',
- *         ],
- *     ],
- * ]
- * ```
- *
  * @see Mutex
- *
- * @author resurtm <resurtm@gmail.com>
- * @since 2.0
  */
 class MysqlMutex extends DbMutex
 {
-    /**
-     * Initializes MySQL specific mutex component implementation.
-     * @throws InvalidConfigException if [[db]] is not MySQL connection.
-     */
-    public function init()
+    public function __construct(\PDO $connection, $autoRelease = true)
     {
-        parent::init();
-        if ($this->db->driverName !== 'mysql') {
-            throw new InvalidConfigException('In order to use MysqlMutex connection must be configured to use MySQL database.');
+        $driverName = $connection->getAttribute(\PDO::ATTR_DRIVER_NAME);
+        if ($driverName !== 'mysql') {
+            throw new \InvalidArgumentException('MySQL connection instance should be passed. Got ' . $driverName . '.');
         }
+
+        parent::__construct($connection, $autoRelease);
     }
 
     /**
@@ -56,13 +33,11 @@ class MysqlMutex extends DbMutex
      */
     protected function acquireLock($name, $timeout = 0)
     {
-        return $this->db->useMaster(function ($db) use ($name, $timeout) {
-            /** @var \yii\db\Connection $db */
-            return (bool) $db->createCommand(
-                'SELECT GET_LOCK(:name, :timeout)',
-                [':name' => $this->hashLockName($name), ':timeout' => $timeout]
-            )->queryScalar();
-        });
+        $statement = $this->connection->prepare('SELECT GET_LOCK(:name, :timeout)');
+        $statement->bindValue(':name', $this->hashLockName($name));
+        $statement->bindValue(':timeout', $timeout);
+        $statement->execute();
+        return $statement->fetchColumn();
     }
 
     /**
@@ -73,13 +48,10 @@ class MysqlMutex extends DbMutex
      */
     protected function releaseLock($name)
     {
-        return $this->db->useMaster(function ($db) use ($name) {
-            /** @var \yii\db\Connection $db */
-            return (bool) $db->createCommand(
-                'SELECT RELEASE_LOCK(:name)',
-                [':name' => $this->hashLockName($name)]
-            )->queryScalar();
-        });
+        $statement = $this->connection->prepare('SELECT RELEASE_LOCK(:name)');
+        $statement->bindValue(':name', $this->hashLockName($name));
+        $statement->execute();
+        return $statement->fetchColumn();
     }
 
     /**
@@ -90,7 +62,8 @@ class MysqlMutex extends DbMutex
      * @since 2.0.16
      * @see https://github.com/yiisoft/yii2/pull/16836
      */
-    protected function hashLockName($name) {
+    protected function hashLockName($name)
+    {
         return sha1($name);
     }
 }
