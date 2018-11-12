@@ -42,13 +42,19 @@ class OracleMutex extends DbMutex
      * @param bool $releaseOnCommit whether to release lock on commit.
      * @param bool $autoRelease
      */
-    public function __construct(\PDO $connection, $lockMode = self::MODE_X, $releaseOnCommit = false, $autoRelease = true)
-    {
+    public function __construct(
+        \PDO $connection,
+        $lockMode = self::MODE_X,
+        $releaseOnCommit = false,
+        $autoRelease = true
+    ) {
         parent::__construct($connection, $autoRelease);
 
         $driverName = $connection->getAttribute(\PDO::ATTR_DRIVER_NAME);
         if (in_array($driverName, ['oci', 'obdb'])) {
-            throw new \InvalidArgumentException('In order to use OracleMutex connection must be configured to use Oracle database.. Got ' . $driverName . '.');
+            throw new \InvalidArgumentException(
+                'Connection must be configured to use Oracle database. Got ' . $driverName . '.'
+            );
         }
 
         $this->lockMode = $lockMode;
@@ -76,7 +82,12 @@ class OracleMutex extends DbMutex
             handle VARCHAR2(128);
         BEGIN
             DBMS_LOCK.ALLOCATE_UNIQUE(:name, handle);
-            :lockStatus := DBMS_LOCK.REQUEST(handle, DBMS_LOCK.' . $this->lockMode . ', ' . $timeout . ', ' . $releaseOnCommit . ');
+            :lockStatus := DBMS_LOCK.REQUEST(
+                handle,
+                DBMS_LOCK.' . $this->lockMode . ',
+                ' . $timeout . ',
+                ' . $releaseOnCommit . '
+            );
         END;');
 
         $statement->bindValue(':name', $name);

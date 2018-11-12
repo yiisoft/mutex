@@ -34,9 +34,9 @@ abstract class Mutex
 
     /**
      * Mutex constructor.
-     * @param bool $autoRelease whether all locks acquired in this process (i.e. local locks) must be released automatically
-     * before finishing script execution. Defaults to true. Setting this property to true means that all locks
-     * acquired in this process must be released (regardless of errors or exceptions).
+     * @param bool $autoRelease whether all locks acquired in this process (i.e. local locks) must be released
+     * automatically before finishing script execution. Defaults to true. Setting this property to true means that
+     * all locks acquired in this process must be released (regardless of errors or exceptions).
      */
     public function __construct($autoRelease = true)
     {
@@ -53,8 +53,8 @@ abstract class Mutex
     /**
      * Acquires a lock by name.
      * @param string $name of the lock to be acquired. Must be unique.
-     * @param int $timeout time (in seconds) to wait for lock to be released. Defaults to zero meaning that method will return
-     * false immediately in case lock was already acquired.
+     * @param int $timeout time (in seconds) to wait for lock to be released. Defaults to zero meaning that method
+     * will return false immediately in case lock was already acquired.
      * @return bool lock acquiring result.
      */
     public function acquire($name, $timeout = 0)

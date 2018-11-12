@@ -81,13 +81,21 @@ class FileMutex extends Mutex
             }
         } catch (\Exception $e) {
             if (!is_dir($path)) {// https://github.com/yiisoft/yii2/issues/9288
-                throw new \RuntimeException("Failed to create directory \"$path\": " . $e->getMessage(), $e->getCode(), $e);
+                throw new \RuntimeException(
+                    "Failed to create directory \"$path\": " . $e->getMessage(),
+                    $e->getCode(),
+                    $e
+                );
             }
         }
         try {
             return chmod($path, $mode);
         } catch (\Exception $e) {
-            throw new \RuntimeException("Failed to change permissions for directory \"$path\": " . $e->getMessage(), $e->getCode(), $e);
+            throw new \RuntimeException(
+                "Failed to change permissions for directory \"$path\": " . $e->getMessage(),
+                $e->getCode(),
+                $e
+            );
         }
     }
 
@@ -115,9 +123,11 @@ class FileMutex extends Mutex
                 return false;
             }
 
-            // Under unix we delete the lock file before releasing the related handle. Thus it's possible that we've acquired a lock on
-            // a non-existing file here (race condition). We must compare the inode of the lock file handle with the inode of the actual lock file.
-            // If they do not match we simply continue the loop since we can assume the inodes will be equal on the next try.
+            // Under unix we delete the lock file before releasing the related handle. Thus it's possible that we've
+            // acquired a lock on a non-existing file here (race condition). We must compare the inode of the lock file
+            // handle with the inode of the actual lock file.
+            // If they do not match we simply continue the loop since we can assume the inodes will be equal on the
+            // next try.
             // Example of race condition without inode-comparison:
             // Script A: locks file
             // Script B: opens file

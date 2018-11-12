@@ -10,26 +10,7 @@ namespace yii\mutex;
 /**
  * PgsqlMutex implements mutex "lock" mechanism via PgSQL locks.
  *
- * Application configuration example:
- *
- * ```
- * [
- *     'components' => [
- *         'db' => [
- *             'class' => 'yii\db\Connection',
- *             'dsn' => 'pgsql:host=127.0.0.1;dbname=demo',
- *         ]
- *         'mutex' => [
- *             'class' => 'yii\mutex\PgsqlMutex',
- *         ],
- *     ],
- * ]
- * ```
- *
  * @see Mutex
- *
- * @author nineinchnick <janek.jan@gmail.com>
- * @since 2.0.8
  */
 class PgsqlMutex extends DbMutex
 {
@@ -39,7 +20,9 @@ class PgsqlMutex extends DbMutex
     {
         $driverName = $connection->getAttribute(\PDO::ATTR_DRIVER_NAME);
         if ($driverName !== 'pgsql') {
-            throw new \InvalidArgumentException('In order to use PgsqlMutex connection must be configured to use PgSQL database. Got ' . $driverName . '.');
+            throw new \InvalidArgumentException(
+                'Connection must be configured to use PgSQL database. Got ' . $driverName . '.'
+            );
         }
 
         parent::__construct($connection, $autoRelease);
