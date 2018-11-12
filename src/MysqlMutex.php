@@ -62,7 +62,8 @@ class MysqlMutex extends DbMutex
      * @since 2.0.16
      * @see https://github.com/yiisoft/yii2/pull/16836
      */
-    protected function hashLockName($name) {
+    protected function hashLockName($name)
+    {
         return sha1($name);
     }
 }
