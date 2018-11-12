@@ -1,0 +1,28 @@
+language: php
+
+php:
+  - 7.1
+  - 7.2
+
+# run build against hhvm but allow them to fail
+# http://docs.travis-ci.com/user/build-configuration/#Rows-That-are-Allowed-To-Fail
+matrix:
+  fast_finish: true
+
+# faster builds on new travis setup not using sudo
+sudo: false
+
+# cache vendor dirs
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+install:
+  - travis_retry composer self-update && composer --version
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - travis_retry composer install --prefer-dist --no-interaction
+
+script:
+  - |
+    vendor/bin/phpcs --standard=PSR2 src tests &&
+    vendor/bin/phpunit $PHPUNIT_FLAGS
