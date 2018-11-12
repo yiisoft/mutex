@@ -8,7 +8,6 @@
 namespace yii\mutex\tests\unit;
 
 use yii\mutex\PgsqlMutex;
-use yiiunit\framework\db\DatabaseTestCase;
 
 /**
  * Class PgsqlMutexTest.
@@ -17,21 +16,20 @@ use yiiunit\framework\db\DatabaseTestCase;
  * @group db
  * @group pgsql
  */
-class PgsqlMutexTest extends DatabaseTestCase
+class PgsqlMutexTest
 {
     use MutexTestTrait;
 
-    protected $driverName = 'pgsql';
-
     /**
      * @return PgsqlMutex
-     * @throws \yii\base\InvalidConfigException
      */
     protected function createMutex()
     {
-        return \Yii::createObject([
-            'class' => PgsqlMutex::class,
-            'db' => $this->getConnection(),
-        ]);
+        return new PgsqlMutex($this->getConnection());
+    }
+
+    private function getConnection()
+    {
+        // TODO: create MySQL connection here
     }
 }

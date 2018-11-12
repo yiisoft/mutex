@@ -7,10 +7,7 @@
 
 namespace yii\mutex\tests\unit;
 
-use Yii;
-use yii\base\InvalidConfigException;
-use yiiunit\framework\mutex\mocks\DumbMutex;
-use yiiunit\TestCase;
+use yii\mutex\tests\unit\mocks\DumbMutex;
 
 /**
  * Class RetryAcquireTraitTest.
@@ -19,11 +16,8 @@ use yiiunit\TestCase;
  *
  * @author Robert Korulczyk <robert@korulczyk.pl>
  */
-class RetryAcquireTraitTest extends TestCase
+class RetryAcquireTraitTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @throws InvalidConfigException
-     */
     public function testRetryAcquire()
     {
         $mutexName = __FUNCTION__;
@@ -38,12 +32,9 @@ class RetryAcquireTraitTest extends TestCase
 
     /**
      * @return DumbMutex
-     * @throws InvalidConfigException
      */
     private function createMutex()
     {
-        return Yii::createObject([
-            'class' => DumbMutex::class,
-        ]);
+        return new DumbMutex();
     }
 }
