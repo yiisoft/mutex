@@ -1,6 +1,7 @@
 <?php
 /**
  * @link http://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
@@ -30,21 +31,22 @@ class FileMutex extends Mutex
     private $mutexPath;
     /**
      * @var int the permission to be set for newly created mutex files.
-     * This value will be used by PHP chmod() function. No umask will be applied.
-     * If not set, the permission will be determined by the current environment.
+     *          This value will be used by PHP chmod() function. No umask will be applied.
+     *          If not set, the permission will be determined by the current environment.
      */
     public $fileMode;
     /**
      * @var int the permission to be set for newly created directories.
-     * This value will be used by PHP chmod() function. No umask will be applied.
-     * Defaults to 0775, meaning the directory is read-writable by owner and group,
-     * but read-only for other users.
+     *          This value will be used by PHP chmod() function. No umask will be applied.
+     *          Defaults to 0775, meaning the directory is read-writable by owner and group,
+     *          but read-only for other users.
      */
     public $dirMode = 0775;
     /**
      * @var bool whether file handling should assume a Windows file system.
-     * This value will determine how [[releaseLock()]] goes about deleting the lock file.
-     * If not set, it will be determined by checking the DIRECTORY_SEPARATOR constant.
+     *           This value will determine how [[releaseLock()]] goes about deleting the lock file.
+     *           If not set, it will be determined by checking the DIRECTORY_SEPARATOR constant.
+     *
      * @since 2.0.16
      */
     public $isWindows;
@@ -75,6 +77,7 @@ class FileMutex extends Mutex
         if ($parentDir !== $path && !is_dir($parentDir)) {
             $this->createDirectoryRecursively($parentDir, $mode);
         }
+
         try {
             if (!mkdir($path, $mode)) {
                 return false;
@@ -82,17 +85,18 @@ class FileMutex extends Mutex
         } catch (\Exception $e) {
             if (!is_dir($path)) {// https://github.com/yiisoft/yii2/issues/9288
                 throw new \RuntimeException(
-                    "Failed to create directory \"$path\": " . $e->getMessage(),
+                    "Failed to create directory \"$path\": ".$e->getMessage(),
                     $e->getCode(),
                     $e
                 );
             }
         }
+
         try {
             return chmod($path, $mode);
         } catch (\Exception $e) {
             throw new \RuntimeException(
-                "Failed to change permissions for directory \"$path\": " . $e->getMessage(),
+                "Failed to change permissions for directory \"$path\": ".$e->getMessage(),
                 $e->getCode(),
                 $e
             );
@@ -101,13 +105,16 @@ class FileMutex extends Mutex
 
     /**
      * Acquires lock by given name.
-     * @param string $name of the lock to be acquired.
-     * @param int $timeout time (in seconds) to wait for lock to become released.
+     *
+     * @param string $name    of the lock to be acquired.
+     * @param int    $timeout time (in seconds) to wait for lock to become released.
+     *
      * @return bool acquiring result.
      */
     protected function acquireLock($name, $timeout = 0)
     {
         $filePath = $this->getLockFilePath($name);
+
         return $this->retryAcquire($timeout, function () use ($filePath, $name) {
             $file = fopen($filePath, 'wb+');
             if ($file === false) {
@@ -120,6 +127,7 @@ class FileMutex extends Mutex
 
             if (!flock($file, LOCK_EX | LOCK_NB)) {
                 fclose($file);
+
                 return false;
             }
 
@@ -139,17 +147,21 @@ class FileMutex extends Mutex
                 clearstatcache(true, $filePath);
                 flock($file, LOCK_UN);
                 fclose($file);
+
                 return false;
             }
 
             $this->files[$name] = $file;
+
             return true;
         });
     }
 
     /**
      * Releases lock by given name.
+     *
      * @param string $name of the lock to be released.
+     *
      * @return bool release result.
      */
     protected function releaseLock($name)
@@ -173,16 +185,19 @@ class FileMutex extends Mutex
         }
 
         unset($this->files[$name]);
+
         return true;
     }
 
     /**
      * Generate path for lock file.
+     *
      * @param string $name
+     *
      * @return string
      */
     public function getLockFilePath($name)
     {
-        return $this->mutexPath . DIRECTORY_SEPARATOR . md5($name) . '.lock';
+        return $this->mutexPath.DIRECTORY_SEPARATOR.md5($name).'.lock';
     }
 }

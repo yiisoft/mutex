@@ -1,6 +1,7 @@
 <?php
 /**
  * @link http://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
@@ -27,6 +28,7 @@ class OracleMutex extends DbMutex
 
     /**
      * @var string lock mode to be used.
+     *
      * @see http://docs.oracle.com/cd/B19306_01/appdev.102/b14258/d_lock.htm#CHDBCFDI
      */
     private $lockMode;
@@ -37,10 +39,11 @@ class OracleMutex extends DbMutex
 
     /**
      * OracleMutex constructor.
-     * @param \PDO $connection
-     * @param string $lockMode lock mode to be used.
-     * @param bool $releaseOnCommit whether to release lock on commit.
-     * @param bool $autoRelease
+     *
+     * @param \PDO   $connection
+     * @param string $lockMode        lock mode to be used.
+     * @param bool   $releaseOnCommit whether to release lock on commit.
+     * @param bool   $autoRelease
      */
     public function __construct(
         \PDO $connection,
@@ -53,7 +56,7 @@ class OracleMutex extends DbMutex
         $driverName = $connection->getAttribute(\PDO::ATTR_DRIVER_NAME);
         if (in_array($driverName, ['oci', 'obdb'])) {
             throw new \InvalidArgumentException(
-                'Connection must be configured to use Oracle database. Got ' . $driverName . '.'
+                'Connection must be configured to use Oracle database. Got '.$driverName.'.'
             );
         }
 
@@ -63,9 +66,12 @@ class OracleMutex extends DbMutex
 
     /**
      * Acquires lock by given name.
+     *
      * @see http://docs.oracle.com/cd/B19306_01/appdev.102/b14258/d_lock.htm
-     * @param string $name of the lock to be acquired.
-     * @param int $timeout time (in seconds) to wait for lock to become released.
+     *
+     * @param string $name    of the lock to be acquired.
+     * @param int    $timeout time (in seconds) to wait for lock to become released.
+     *
      * @return bool acquiring result.
      */
     protected function acquireLock($name, $timeout = 0)
@@ -84,9 +90,9 @@ class OracleMutex extends DbMutex
             DBMS_LOCK.ALLOCATE_UNIQUE(:name, handle);
             :lockStatus := DBMS_LOCK.REQUEST(
                 handle,
-                DBMS_LOCK.' . $this->lockMode . ',
-                ' . $timeout . ',
-                ' . $releaseOnCommit . '
+                DBMS_LOCK.'.$this->lockMode.',
+                '.$timeout.',
+                '.$releaseOnCommit.'
             );
         END;');
 
@@ -99,8 +105,11 @@ class OracleMutex extends DbMutex
 
     /**
      * Releases lock by given name.
+     *
      * @param string $name of the lock to be released.
+     *
      * @return bool release result.
+     *
      * @see http://docs.oracle.com/cd/B19306_01/appdev.102/b14258/d_lock.htm
      */
     protected function releaseLock($name)
