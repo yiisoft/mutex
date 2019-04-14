@@ -8,8 +8,8 @@
 
 namespace Yii\Mutex\Tests\Mocks;
 
-use yii\mutex\Mutex;
-use yii\mutex\RetryAcquireTrait;
+use Yii\Mutex\Mutex;
+use Yii\Mutex\RetryAcquireTrait;
 
 /**
  * Class DumbMutex.

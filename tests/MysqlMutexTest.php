@@ -8,7 +8,7 @@
 
 namespace Yii\Mutex\Tests;
 
-use yii\mutex\MysqlMutex;
+use Yii\Mutex\MysqlMutex;
 
 /**
  * Class MysqlMutexTest.
