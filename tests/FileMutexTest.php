@@ -1,13 +1,14 @@
 <?php
 /**
  * @link http://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
-namespace yii\mutex\tests\unit;
+namespace Yii\Mutex\Tests;
 
-use yii\mutex\FileMutex;
+use Yii\Mutex\FileMutex;
 
 /**
  * Class FileMutexTest.
@@ -19,8 +20,9 @@ class FileMutexTest extends \PHPUnit\Framework\TestCase
     use MutexTestTrait;
 
     /**
-     * @return FileMutex
      * @throws \RuntimeException
+     *
+     * @return FileMutex
      */
     protected function createMutex()
     {

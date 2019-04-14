@@ -1,13 +1,14 @@
 <?php
 /**
  * @link http://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
-namespace yii\mutex\tests\unit;
+namespace Yii\Mutex\Tests;
 
-use yii\mutex\Mutex;
+use Yii\Mutex\Mutex;
 
 /**
  * Class MutexTestTrait.
@@ -93,8 +94,8 @@ trait MutexTestTrait
 UTF;
 
         return [
-            'simple name' => ['testname'],
-            'long name' => ['Y' . str_repeat('iiiiiiiiii', 1000)],
+            'simple name'   => ['testname'],
+            'long name'     => ['Y'.str_repeat('iiiiiiiiii', 1000)],
             'UTF-8 garbage' => [$utf],
         ];
     }

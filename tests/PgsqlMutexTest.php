@@ -1,11 +1,12 @@
 <?php
 /**
  * @link http://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
-namespace yii\mutex\tests\unit;
+namespace Yii\Mutex\Tests;
 
 use yii\mutex\PgsqlMutex;
 
