@@ -8,7 +8,7 @@
 
 namespace Yii\Mutex\Tests;
 
-use yii\mutex\PgsqlMutex;
+use Yii\Mutex\PgsqlMutex;
 
 /**
  * Class PgsqlMutexTest.
