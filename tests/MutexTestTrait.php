@@ -1,6 +1,7 @@
 <?php
 /**
  * @link http://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
@@ -93,8 +94,8 @@ trait MutexTestTrait
 UTF;
 
         return [
-            'simple name' => ['testname'],
-            'long name' => ['Y' . str_repeat('iiiiiiiiii', 1000)],
+            'simple name'   => ['testname'],
+            'long name'     => ['Y'.str_repeat('iiiiiiiiii', 1000)],
             'UTF-8 garbage' => [$utf],
         ];
     }
