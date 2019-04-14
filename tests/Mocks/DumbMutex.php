@@ -5,7 +5,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace yii\mutex\tests\unit\mocks;
+namespace Yii\Mutex\Tests\Mocks;
 
 use yii\mutex\Mutex;
 use yii\mutex\RetryAcquireTrait;

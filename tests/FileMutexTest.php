@@ -5,7 +5,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace Yii\Mutex\Tests\Unit;
+namespace Yii\Mutex\Tests;
 
 use Yii\Mutex\FileMutex;
 
