@@ -5,7 +5,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace yii\mutex;
+namespace Yii\Mutex;
 
 /**
  * MysqlMutex implements mutex "lock" mechanism via MySQL locks.

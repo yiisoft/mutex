@@ -5,7 +5,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace yii\mutex\tests\unit;
+namespace Yii\Mutex\Tests\Unit;
 
 use yii\mutex\PgsqlMutex;
 

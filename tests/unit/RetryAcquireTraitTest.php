@@ -5,9 +5,9 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace yii\mutex\tests\unit;
+namespace Yii\Mutex\Tests\Unit;
 
-use yii\mutex\tests\unit\mocks\DumbMutex;
+use Yii\Mutex\Tests\Unit\mocks\DumbMutex;
 
 /**
  * Class RetryAcquireTraitTest.

@@ -5,7 +5,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace yii\mutex;
+namespace Yii\Mutex;
 
 /**
  * DbMutex is the base class for classes, which relies on database while implementing mutex "lock" mechanism.
