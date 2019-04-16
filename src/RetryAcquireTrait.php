@@ -26,7 +26,12 @@ trait RetryAcquireTrait
      */
     public $retryDelay = 50;
 
-    private function retryAcquire($timeout, Closure $callback)
+    /**
+     * @param int $timeout
+     * @param Closure $callback
+     * @return bool
+     */
+    private function retryAcquire(int $timeout, Closure $callback): bool
     {
         $start = microtime(true);
         do {

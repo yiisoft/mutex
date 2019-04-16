@@ -26,7 +26,7 @@ class DumbMutex extends Mutex
     /**
      * {@inheritdoc}
      */
-    protected function acquireLock($name, $timeout = 0)
+    protected function acquireLock(string $name, int $timeout = 0): bool
     {
         return $this->retryAcquire($timeout, function () {
             $this->attemptsCounter++;
@@ -43,7 +43,7 @@ class DumbMutex extends Mutex
     /**
      * {@inheritdoc}
      */
-    protected function releaseLock($name)
+    protected function releaseLock(string $name): bool
     {
         if (static::$locked) {
             static::$locked = false;
