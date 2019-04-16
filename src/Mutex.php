@@ -41,7 +41,7 @@ abstract class Mutex
      *                          to true means that all locks acquired in this process must be released (regardless of
      *                          errors or exceptions).
      */
-    public function __construct($autoRelease = true)
+    public function __construct(bool $autoRelease = true)
     {
         if ($autoRelease) {
             $locks = &$this->locks;
@@ -56,13 +56,13 @@ abstract class Mutex
     /**
      * Acquires a lock by name.
      *
-     * @param string $name    of the lock to be acquired. Must be unique.
+     * @param string $name    name of the lock to be acquired. Must be unique.
      * @param int    $timeout time (in seconds) to wait for lock to be released. Defaults to zero meaning that method
      *                        will return false immediately in case lock was already acquired.
      *
      * @return bool lock acquiring result.
      */
-    public function acquire($name, $timeout = 0)
+    public function acquire(string $name, int $timeout = 0): bool
     {
         if (!in_array($name, $this->locks, true) && $this->acquireLock($name, $timeout)) {
             $this->locks[] = $name;
@@ -80,7 +80,7 @@ abstract class Mutex
      *
      * @return bool lock release result: false in case named lock was not found..
      */
-    public function release($name)
+    public function release(string $name): bool
     {
         if ($this->releaseLock($name)) {
             $index = array_search($name, $this->locks);
@@ -102,7 +102,7 @@ abstract class Mutex
      *
      * @return bool acquiring result.
      */
-    abstract protected function acquireLock($name, $timeout = 0);
+    abstract protected function acquireLock(string $name, int $timeout = 0): bool;
 
     /**
      * This method should be extended by a concrete Mutex implementations. Releases lock by given name.
@@ -111,5 +111,5 @@ abstract class Mutex
      *
      * @return bool release result.
      */
-    abstract protected function releaseLock($name);
+    abstract protected function releaseLock(string $name): bool;
 }

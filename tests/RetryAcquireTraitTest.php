@@ -34,7 +34,7 @@ class RetryAcquireTraitTest extends \PHPUnit\Framework\TestCase
     /**
      * @return DumbMutex
      */
-    private function createMutex()
+    private function createMutex(): DumbMutex
     {
         return new DumbMutex();
     }
