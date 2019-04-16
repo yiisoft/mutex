@@ -18,7 +18,7 @@ trait MutexTestTrait
     /**
      * @return Mutex
      */
-    abstract protected function createMutex();
+    abstract protected function createMutex(): Mutex;
 
     /**
      * @dataProvider mutexDataProvider()
@@ -83,7 +83,7 @@ trait MutexTestTrait
         $this->assertFalse($mutexTwo->release($mutexName));
     }
 
-    public static function mutexDataProvider()
+    public static function mutexDataProvider(): array
     {
         $utf = <<<'UTF'
 𝐘˛𝜄 ӏ𝕤 𝗮 𝔣𝖺𐑈𝝉, 𐑈ℯ𝔠ｕ𝒓𝗲, 𝝰𝞹𝒹 𝖊𝘧𝒇𝗶𝕔𝖎ⅇπτ Ｐ𝘏𝙿 𝖿г𝖺ｍ𝖾ｗσｒ𝐤.
