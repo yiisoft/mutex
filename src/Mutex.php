@@ -6,7 +6,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace Yii\Mutex;
+namespace Yiisoft\Mutex;
 
 /**
  * The Mutex component allows mutual execution of concurrent processes in order to prevent "race conditions".
