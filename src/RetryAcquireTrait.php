@@ -6,7 +6,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace Yii\Mutex;
+namespace Yiisoft\Mutex;
 
 use Closure;
 
