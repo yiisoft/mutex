@@ -75,12 +75,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Yii\\Mutex\\": "src"
+            "Yiisoft\\Mutex\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Yii\\Mutex\\Tests\\": "tests"
+            "Yiisoft\\Mutex\\Tests\\": "tests"
         }
     },
     "extra": {

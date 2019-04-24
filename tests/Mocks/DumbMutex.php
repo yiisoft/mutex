@@ -6,10 +6,10 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace Yii\Mutex\Tests\Mocks;
+namespace Yiisoft\Mutex\Tests\Mocks;
 
-use Yii\Mutex\Mutex;
-use Yii\Mutex\RetryAcquireTrait;
+use Yiisoft\Mutex\Mutex;
+use Yiisoft\Mutex\RetryAcquireTrait;
 
 /**
  * Class DumbMutex.
