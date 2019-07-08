@@ -1,11 +1,4 @@
 <?php
-/**
- * @link http://www.yiiframework.com/
- *
- * @copyright Copyright (c) 2008 Yii Software LLC
- * @license http://www.yiiframework.com/license/
- */
-
 namespace Yiisoft\Mutex\Tests;
 
 use Yiisoft\Mutex\Tests\Mocks\DumbMutex;
@@ -14,8 +7,6 @@ use Yiisoft\Mutex\Tests\Mocks\DumbMutex;
  * Class RetryAcquireTraitTest.
  *
  * @group mutex
- *
- * @author Robert Korulczyk <robert@korulczyk.pl>
  */
 class RetryAcquireTraitTest extends \PHPUnit\Framework\TestCase
 {

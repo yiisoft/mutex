@@ -1,20 +1,11 @@
 <?php
-/**
- * @link http://www.yiiframework.com/
- *
- * @copyright Copyright (c) 2008 Yii Software LLC
- * @license http://www.yiiframework.com/license/
- */
-
 namespace Yiisoft\Mutex\Tests\Mocks;
 
 use Yiisoft\Mutex\Mutex;
 use Yiisoft\Mutex\RetryAcquireTrait;
 
 /**
- * Class DumbMutex.
- *
- * @author Robert Korulczyk <robert@korulczyk.pl>
+ * Class DumbMutex
  */
 class DumbMutex extends Mutex
 {
