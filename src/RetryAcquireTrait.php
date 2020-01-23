@@ -1,4 +1,5 @@
 <?php
+
 namespace Yiisoft\Mutex;
 
 use Closure;

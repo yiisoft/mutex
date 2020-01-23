@@ -1,4 +1,5 @@
 <?php
+
 namespace Yiisoft\Mutex\Tests;
 
 use Yiisoft\Mutex\Tests\Mocks\DumbMutex;
