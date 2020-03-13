@@ -9,7 +9,7 @@
 This library provides mutex implementation.
 It is used in [Yii Framework] but can be used separately.
 
-[Yii Framework]: https://github.com/yiisoft/core
+[Yii Framework]: https://www.yiiframework.com/
 
 [![Latest Stable Version](https://poser.pugx.org/yiisoft/mutex/v/stable.png)](https://packagist.org/packages/yiisoft/mutex)
 [![Total Downloads](https://poser.pugx.org/yiisoft/mutex/downloads.png)](https://packagist.org/packages/yiisoft/mutex)
