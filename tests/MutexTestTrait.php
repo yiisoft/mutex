@@ -89,7 +89,7 @@ UTF;
 
         return [
             'simple name'   => ['testname'],
-            'long name'     => ['Y'.str_repeat('iiiiiiiiii', 1000)],
+            'long name'     => ['Y' . str_repeat('iiiiiiiiii', 1000)],
             'UTF-8 garbage' => [$utf],
         ];
     }
