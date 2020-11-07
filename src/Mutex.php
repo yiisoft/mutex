@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Yiisoft\Mutex;
 
 /**
@@ -25,7 +27,7 @@ abstract class Mutex
     /**
      * @var string[] names of the locks acquired by the current PHP process.
      */
-    private $locks = [];
+    private array $locks = [];
 
     /**
      * Mutex constructor.
@@ -40,6 +42,9 @@ abstract class Mutex
         if ($autoRelease) {
             $locks = &$this->locks;
             register_shutdown_function(function () use (&$locks) {
+                /**
+                 * @var string $lock
+                 */
                 foreach ($locks as $lock) {
                     $this->release($lock);
                 }
