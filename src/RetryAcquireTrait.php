@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Yiisoft\Mutex;
 
 use Closure;
@@ -18,7 +20,7 @@ trait RetryAcquireTrait
      *          By default it is 50 milliseconds - it means that [[acquire()]] may try acquire lock up to 20 times per
      *          second.
      */
-    public $retryDelay = 50;
+    public int $retryDelay = 50;
 
     /**
      * @param int $timeout
