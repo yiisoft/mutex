@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Yiisoft\Mutex\Tests\Mocks;
 
 use Yiisoft\Mutex\Mutex;
@@ -15,9 +17,6 @@ class DumbMutex extends Mutex
     public $attemptsCounter = 0;
     public static $locked = false;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function acquireLock(string $name, int $timeout = 0): bool
     {
         return $this->retryAcquire($timeout, function () {
@@ -32,9 +31,6 @@ class DumbMutex extends Mutex
         });
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function releaseLock(string $name): bool
     {
         if (static::$locked) {

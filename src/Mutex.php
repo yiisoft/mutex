@@ -77,7 +77,7 @@ abstract class Mutex
      *
      * @param string $name of the lock to be released. This lock must already exist.
      *
-     * @return bool lock release result: false in case named lock was not found..
+     * @return bool lock release result: false in case named lock was not found.
      */
     public function release(string $name): bool
     {
