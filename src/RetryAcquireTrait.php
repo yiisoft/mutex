@@ -25,6 +25,7 @@ trait RetryAcquireTrait
     /**
      * @param int $timeout
      * @param Closure $callback
+     *
      * @return bool
      */
     private function retryAcquire(int $timeout, Closure $callback): bool
