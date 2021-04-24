@@ -25,17 +25,17 @@ namespace Yiisoft\Mutex;
 abstract class Mutex
 {
     /**
-     * @var string[] names of the locks acquired by the current PHP process.
+     * @var string[] Names of the locks acquired by the current PHP process.
      */
     private array $locks = [];
 
     /**
      * Mutex constructor.
      *
-     * @param bool $autoRelease whether all locks acquired in this process (i.e. local locks) must be released
-     *                          automatically before finishing script execution. Defaults to true. Setting this property
-     *                          to true means that all locks acquired in this process must be released (regardless of
-     *                          errors or exceptions).
+     * @param bool $autoRelease Whether all locks acquired in this process (i.e. local locks) must be released
+     * automatically before finishing script execution. Defaults to true. Setting this property
+     * to true means that all locks acquired in this process must be released (regardless of
+     * errors or exceptions).
      */
     public function __construct(bool $autoRelease = true)
     {
@@ -55,9 +55,9 @@ abstract class Mutex
     /**
      * Acquires a lock by name.
      *
-     * @param string $name    name of the lock to be acquired. Must be unique.
-     * @param int    $timeout time (in seconds) to wait for lock to be released. Defaults to zero meaning that method
-     *                        will return false immediately in case lock was already acquired.
+     * @param string $name Name of the lock to be acquired. Must be unique.
+     * @param int $timeout Time (in seconds) to wait for lock to be released. Defaults to zero meaning that method
+     * will return false immediately in case lock was already acquired.
      *
      * @return bool lock acquiring result.
      */
@@ -75,14 +75,14 @@ abstract class Mutex
     /**
      * Releases acquired lock. This method will return false in case the lock was not found.
      *
-     * @param string $name of the lock to be released. This lock must already exist.
+     * @param string $name Name of the lock to be released. This lock must already exist.
      *
-     * @return bool lock release result: false in case named lock was not found.
+     * @return bool Lock release result: false in case named lock was not found.
      */
     public function release(string $name): bool
     {
         if ($this->releaseLock($name)) {
-            $index = array_search($name, $this->locks);
+            $index = array_search($name, $this->locks, true);
             if ($index !== false) {
                 unset($this->locks[$index]);
             }
@@ -96,19 +96,19 @@ abstract class Mutex
     /**
      * This method should be extended by a concrete Mutex implementations. Acquires lock by name.
      *
-     * @param string $name    of the lock to be acquired.
-     * @param int    $timeout time (in seconds) to wait for the lock to be released.
+     * @param string $name Name of the lock to be acquired.
+     * @param int $timeout Time (in seconds) to wait for the lock to be released.
      *
-     * @return bool acquiring result.
+     * @return bool Acquiring result.
      */
     abstract protected function acquireLock(string $name, int $timeout = 0): bool;
 
     /**
      * This method should be extended by a concrete Mutex implementations. Releases lock by given name.
      *
-     * @param string $name of the lock to be released.
+     * @param string $name Name of the lock to be released.
      *
-     * @return bool release result.
+     * @return bool Release result.
      */
     abstract protected function releaseLock(string $name): bool;
 }
