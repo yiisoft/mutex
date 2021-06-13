@@ -10,8 +10,6 @@ use Closure;
  * Trait RetryAcquireTrait.
  *
  * @author Robert Korulczyk <robert@korulczyk.pl>
- *
- * @internal
  */
 trait RetryAcquireTrait
 {
@@ -22,12 +20,6 @@ trait RetryAcquireTrait
      */
     public int $retryDelay = 50;
 
-    /**
-     * @param int $timeout
-     * @param Closure $callback
-     *
-     * @return bool
-     */
     private function retryAcquire(int $timeout, Closure $callback): bool
     {
         $start = microtime(true);
