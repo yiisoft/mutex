@@ -23,7 +23,7 @@ final class RetryAcquireTraitTest extends TestCase
         $this->assertTrue($mutexOne->acquire($mutexName));
         $this->assertFalse($mutexTwo->acquire($mutexName, 1));
 
-//        $this->assertSame(20, $mutexTwo->attemptsCounter);
+        $this->assertSame(20, $mutexTwo->attemptsCounter);
     }
 
     private function createMutex(): DumbMutex
