@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mutex;
 
+use function in_array;
+
 /**
  * The Mutex component allows mutual execution of concurrent processes in order to prevent "race conditions".
  *

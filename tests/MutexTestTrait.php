@@ -6,22 +6,14 @@ namespace Yiisoft\Mutex\Tests;
 
 use Yiisoft\Mutex\Mutex;
 
-/**
- * Class MutexTestTrait.
- */
 trait MutexTestTrait
 {
-    /**
-     * @return Mutex
-     */
     abstract protected function createMutex(): Mutex;
 
     /**
      * @dataProvider mutexDataProvider()
-     *
-     * @param string $mutexName
      */
-    public function testMutexAcquire(string $mutexName)
+    public function testMutexAcquire(string $mutexName): void
     {
         $mutex = $this->createMutex();
 
@@ -31,10 +23,8 @@ trait MutexTestTrait
 
     /**
      * @dataProvider mutexDataProvider()
-     *
-     * @param string $mutexName
      */
-    public function testThatMutexLockIsWorking(string $mutexName)
+    public function testThatMutexLockIsWorking(string $mutexName): void
     {
         $mutexOne = $this->createMutex();
         $mutexTwo = $this->createMutex();
@@ -50,10 +40,8 @@ trait MutexTestTrait
 
     /**
      * @dataProvider mutexDataProvider()
-     *
-     * @param string $mutexName
      */
-    public function testThatMutexLockIsWorkingOnTheSameComponent(string $mutexName)
+    public function testThatMutexLockIsWorkingOnTheSameComponent(string $mutexName): void
     {
         $mutex = $this->createMutex();
 
@@ -64,7 +52,7 @@ trait MutexTestTrait
         $this->assertFalse($mutex->release($mutexName));
     }
 
-    public function testTimeout()
+    public function testTimeout(): void
     {
         $mutexName = __FUNCTION__;
         $mutexOne = $this->createMutex();

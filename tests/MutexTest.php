@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mutex\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Yiisoft\Mutex\Tests\Mocks\DumbMutex;
 
-/**
- * Class MutexTest
- */
-class MutexTest extends \PHPUnit\Framework\TestCase
+final class MutexTest extends TestCase
 {
     use MutexTestTrait;
 
-    /**
-     * @return DumbMutex
-     */
+    protected function setUp(): void
+    {
+        DumbMutex::$locked = false;
+    }
+
     private function createMutex(): DumbMutex
     {
         return new DumbMutex();
