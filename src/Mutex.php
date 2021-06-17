@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mutex;
 
+use RuntimeException;
+
 use function in_array;
 
 /**
@@ -24,7 +26,7 @@ use function in_array;
  *
  * This is a base class, which should be extended in order to implement the actual lock mechanism.
  */
-abstract class Mutex
+abstract class Mutex implements MutexInterface
 {
     /**
      * @var string[] Names of the locks acquired by the current PHP process.
@@ -63,15 +65,15 @@ abstract class Mutex
      *
      * @return bool lock acquiring result.
      */
-    public function acquire(string $name, int $timeout = 0): bool
+    public function acquire(string $name, int $timeout = 0): void
     {
         if (!in_array($name, $this->locks, true) && $this->acquireLock($name, $timeout)) {
             $this->locks[] = $name;
 
-            return true;
+            return;
         }
 
-        return false;
+        throw new MutexLockedException();
     }
 
     /**
@@ -81,7 +83,7 @@ abstract class Mutex
      *
      * @return bool Lock release result: false in case named lock was not found.
      */
-    public function release(string $name): bool
+    public function release(string $name): void
     {
         if ($this->releaseLock($name)) {
             $index = array_search($name, $this->locks, true);
@@ -89,10 +91,10 @@ abstract class Mutex
                 unset($this->locks[$index]);
             }
 
-            return true;
+            return;
         }
 
-        return false;
+        throw new RuntimeException();
     }
 
     /**
