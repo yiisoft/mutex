@@ -5,29 +5,20 @@ declare(strict_types=1);
 namespace Yiisoft\Mutex\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Yiisoft\Mutex\Tests\Mocks\DumbMutex;
+use Yiisoft\Mutex\Tests\Mocks\RetryAcquireTraitMutex;
 
 final class RetryAcquireTraitTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        DumbMutex::$locked = false;
-    }
-
     public function testRetryAcquire(): void
     {
-        $mutexName = __FUNCTION__;
-        $mutexOne = $this->createMutex();
-        $mutexTwo = $this->createMutex();
+        if (PHP_OS_FAMILY === 'Windows') {
+            $this->markTestSkipped('RetryAcquireTrait use the "usleep()" function. On Windows, this function may not work correctly.');
+        }
 
-        $this->assertTrue($mutexOne->acquire($mutexName));
-        $this->assertFalse($mutexTwo->acquire($mutexName, 1));
+        $mutex = new RetryAcquireTraitMutex(20);
+        $mutex->acquire('test', 1);
 
-        $this->assertSame(20, $mutexTwo->attemptsCounter);
-    }
-
-    private function createMutex(): DumbMutex
-    {
-        return new DumbMutex();
+        // Test do not throw exception: 20 attempts in 1 second
+        $this->assertTrue(true);
     }
 }

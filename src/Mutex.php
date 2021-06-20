@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mutex;
 
+use RuntimeException;
+
 use function in_array;
 
 /**
@@ -15,16 +17,16 @@ use function in_array;
  * Usage example:
  *
  * ```
- * if ($mutex->acquire($mutexName)) {
- *     // business logic execution
- * } else {
- *     // execution is blocked!
- * }
+ * $lock = $mutex->acquire($mutexName);
+ * // ...
+ * // business logic execution
+ * // ...
+ * $lock->release();
  * ```
  *
  * This is a base class, which should be extended in order to implement the actual lock mechanism.
  */
-abstract class Mutex
+abstract class Mutex implements MutexInterface
 {
     /**
      * @var string[] Names of the locks acquired by the current PHP process.
@@ -44,9 +46,7 @@ abstract class Mutex
         if ($autoRelease) {
             $locks = &$this->locks;
             register_shutdown_function(function () use (&$locks) {
-                /**
-                 * @var string $lock
-                 */
+                /** @var string $lock */
                 foreach ($locks as $lock) {
                     $this->release($lock);
                 }
@@ -61,27 +61,25 @@ abstract class Mutex
      * @param int $timeout Time (in seconds) to wait for lock to be released. Defaults to zero meaning that method
      * will return false immediately in case lock was already acquired.
      *
-     * @return bool lock acquiring result.
+     * @return MutexLockInterface
      */
-    public function acquire(string $name, int $timeout = 0): bool
+    public function acquire(string $name, int $timeout = 0): MutexLockInterface
     {
         if (!in_array($name, $this->locks, true) && $this->acquireLock($name, $timeout)) {
             $this->locks[] = $name;
 
-            return true;
+            return new MutexLock($this, $name);
         }
 
-        return false;
+        throw new MutexLockedException();
     }
 
     /**
      * Releases acquired lock. This method will return false in case the lock was not found.
      *
      * @param string $name Name of the lock to be released. This lock must already exist.
-     *
-     * @return bool Lock release result: false in case named lock was not found.
      */
-    public function release(string $name): bool
+    public function release(string $name): void
     {
         if ($this->releaseLock($name)) {
             $index = array_search($name, $this->locks, true);
@@ -89,10 +87,10 @@ abstract class Mutex
                 unset($this->locks[$index]);
             }
 
-            return true;
+            return;
         }
 
-        return false;
+        throw new RuntimeException();
     }
 
     /**
