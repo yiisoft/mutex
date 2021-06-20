@@ -11,13 +11,16 @@ final class DumbMutex extends Mutex
 {
     use RetryAcquireTrait;
 
-    public int $attemptsCounter = 0;
     public static bool $locked = false;
+
+    public function __construct()
+    {
+        parent::__construct(false);
+    }
 
     protected function acquireLock(string $name, int $timeout = 0): bool
     {
         return $this->retryAcquire($timeout, function () {
-            $this->attemptsCounter++;
             if (!self::$locked) {
                 self::$locked = true;
 

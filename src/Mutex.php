@@ -63,14 +63,14 @@ abstract class Mutex implements MutexInterface
      * @param int $timeout Time (in seconds) to wait for lock to be released. Defaults to zero meaning that method
      * will return false immediately in case lock was already acquired.
      *
-     * @return bool lock acquiring result.
+     * @return MutexLockInterface
      */
-    public function acquire(string $name, int $timeout = 0): void
+    public function acquire(string $name, int $timeout = 0): MutexLockInterface
     {
         if (!in_array($name, $this->locks, true) && $this->acquireLock($name, $timeout)) {
             $this->locks[] = $name;
 
-            return;
+            return new MutexLock($this, $name);
         }
 
         throw new MutexLockedException();
@@ -80,8 +80,6 @@ abstract class Mutex implements MutexInterface
      * Releases acquired lock. This method will return false in case the lock was not found.
      *
      * @param string $name Name of the lock to be released. This lock must already exist.
-     *
-     * @return bool Lock release result: false in case named lock was not found.
      */
     public function release(string $name): void
     {
