@@ -17,11 +17,11 @@ use function in_array;
  * Usage example:
  *
  * ```
- * if ($mutex->acquire($mutexName)) {
- *     // business logic execution
- * } else {
- *     // execution is blocked!
- * }
+ * $lock = $mutex->acquire($mutexName);
+ * // ...
+ * // business logic execution
+ * // ...
+ * $lock->release();
  * ```
  *
  * This is a base class, which should be extended in order to implement the actual lock mechanism.
@@ -46,9 +46,7 @@ abstract class Mutex implements MutexInterface
         if ($autoRelease) {
             $locks = &$this->locks;
             register_shutdown_function(function () use (&$locks) {
-                /**
-                 * @var string $lock
-                 */
+                /** @var string $lock */
                 foreach ($locks as $lock) {
                     $this->release($lock);
                 }
