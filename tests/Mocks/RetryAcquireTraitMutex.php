@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Yiisoft\Mutex\Tests\Mocks;
 
 use Yiisoft\Mutex\Mutex;
+use Yiisoft\Mutex\MutexInterface;
 use Yiisoft\Mutex\RetryAcquireTrait;
 
-final class RetryAcquireTraitMutex extends Mutex
+final class RetryAcquireTraitMutex implements MutexInterface
 {
     use RetryAcquireTrait;
 
@@ -17,10 +18,9 @@ final class RetryAcquireTraitMutex extends Mutex
     public function __construct(int $expectedAttempts)
     {
         $this->expectedAttempts = $expectedAttempts;
-        parent::__construct(false);
     }
 
-    protected function acquireLock(string $name, int $timeout = 0): bool
+    public function acquire(int $timeout = 0): bool
     {
         return $this->retryAcquire(
             $timeout,
@@ -31,8 +31,8 @@ final class RetryAcquireTraitMutex extends Mutex
         );
     }
 
-    protected function releaseLock(string $name): bool
+    public function release(): void
     {
-        return true;
+        // do nothing
     }
 }

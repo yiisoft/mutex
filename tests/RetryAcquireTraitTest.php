@@ -9,16 +9,21 @@ use Yiisoft\Mutex\Tests\Mocks\RetryAcquireTraitMutex;
 
 final class RetryAcquireTraitTest extends TestCase
 {
-    public function testRetryAcquire(): void
+    public function testRetryAcquireSuccess(): void
     {
-        if (PHP_OS_FAMILY === 'Windows') {
-            $this->markTestSkipped('RetryAcquireTrait use the "usleep()" function. On Windows, this function may not work correctly.');
-        }
+        // 2s to acquire mutex
+        $mutex = (new RetryAcquireTraitMutex(2))
+            ->withRetryDelay(1000);
 
-        $mutex = new RetryAcquireTraitMutex(20);
-        $mutex->acquire('test', 1);
+        $this->assertTrue($mutex->acquire(2));
+    }
 
-        // Test do not throw exception: 20 attempts in 1 second
-        $this->assertTrue(true);
+    public function testRetryAcquireFailure(): void
+    {
+        // 2s to acquire mutex
+        $mutex = (new RetryAcquireTraitMutex(2))
+            ->withRetryDelay(1000);
+
+        $this->assertFalse($mutex->acquire(1));
     }
 }

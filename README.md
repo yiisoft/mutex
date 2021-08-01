@@ -51,13 +51,17 @@ $mutex->release();
 
 ## Mutex drivers
 
-Mutex drivers are implemented as separate packages:
+There are some mutex drivers available as separate packages:
 
 - [DB - MySQL](https://github.com/yiisoft/mutex-db-mysql)
 - [DB - Oracle](https://github.com/yiisoft/mutex-db-oracle)
 - [DB - Redis](https://github.com/yiisoft/mutex-db-redis)
 - [DB - Postgres](https://github.com/yiisoft/mutex-db-pgsql)
 - [File](https://github.com/yiisoft/mutex-file)
+
+If you want to provide your own driver, you need to implement `MutexFactoryInterface` and `MutexInterface`.
+When doing the latter, consider using `RetryAcquireTrait` that contains `retryAcquire()` method implementing
+the "wait for a lock for a certain time" functionality.
 
 ## Testing
 
