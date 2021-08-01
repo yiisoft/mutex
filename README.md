@@ -18,7 +18,7 @@
 This package provides mutex implementation and allows mutual execution of concurrent processes in order to prevent
 "race conditions".
 
-This is achieved by using a "lock" mechanism. Each possibly concurrent thread cooperates by acquiring
+This is achieved by using a "lock" mechanism. Each possibly concurrent processes cooperates by acquiring
 a lock before accessing the corresponding data.
 
 ## Requirements
@@ -37,10 +37,15 @@ composer require yiisoft/mutex --prefer-dist
 
 ```php
 $mutex = $mutexFactory->create();
-$mutex->acquire();
+
+if (!$mutex->acquire()) {
+    throw new \RuntimeException('Unable to acquire mutex.');
+}
+
 // ...
 // business logic execution
 // ...
+
 $mutex->release();
 ```
 
