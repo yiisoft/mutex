@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mutex\Tests\Mocks;
 
-use Yiisoft\Mutex\Mutex;
 use Yiisoft\Mutex\MutexInterface;
 use Yiisoft\Mutex\RetryAcquireTrait;
 
