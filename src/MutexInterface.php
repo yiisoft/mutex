@@ -13,9 +13,9 @@ namespace Yiisoft\Mutex;
  * Usage example:
  *
  * ```
- * $mutex = $mutexFactory->create();
+ * $mutex = $mutexFactory->create('critical_logic');
  * if (!$mutex->acquire(1000)) {
- *     throw new \RuntimeException('Unable to acquire mutex.');
+ *     throw new \RuntimeException('Unable to acquire "critical_logic" mutex.');
  * }
  *
  * // ...

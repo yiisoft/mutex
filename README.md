@@ -36,10 +36,10 @@ composer require yiisoft/mutex --prefer-dist
 ## Usage
 
 ```php
-$mutex = $mutexFactory->create();
+$mutex = $mutexFactory->create('critical_logic');
 
 if (!$mutex->acquire()) {
-    throw new \RuntimeException('Unable to acquire mutex.');
+    throw new \RuntimeException('Unable to acquire "critical_logic" mutex.');
 }
 
 // ...

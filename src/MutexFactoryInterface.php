@@ -9,5 +9,8 @@ namespace Yiisoft\Mutex;
  */
 interface MutexFactoryInterface
 {
-    public function create(): MutexInterface;
+    /**
+     * @param string $name Name of the mutex to create.
+     */
+    public function create(string $name): MutexInterface;
 }
