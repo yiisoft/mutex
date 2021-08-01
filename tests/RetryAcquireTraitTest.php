@@ -11,6 +11,10 @@ final class RetryAcquireTraitTest extends TestCase
 {
     public function testRetryAcquireSuccess(): void
     {
+        if (DIRECTORY_SEPARATOR === '\\') {
+            $this->markTestSkipped('usleep() is not reliable on Windows.');
+        }
+
         // 2s to acquire mutex
         $mutex = (new RetryAcquireTraitMutex(2))
             ->withRetryDelay(1000);
@@ -20,6 +24,10 @@ final class RetryAcquireTraitTest extends TestCase
 
     public function testRetryAcquireFailure(): void
     {
+        if (DIRECTORY_SEPARATOR === '\\') {
+            $this->markTestSkipped('usleep() is not reliable on Windows.');
+        }
+
         // 2s to acquire mutex
         $mutex = (new RetryAcquireTraitMutex(2))
             ->withRetryDelay(1000);
