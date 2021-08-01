@@ -31,7 +31,7 @@ interface MutexInterface
      *
      * @throws MutexLockedException
      */
-    public function acquire(int $timeout = 0): void;
+    public function acquire(int $timeout = 0): bool;
 
     /**
      * Releases a lock.
