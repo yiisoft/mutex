@@ -15,7 +15,11 @@
 [![static analysis](https://github.com/yiisoft/mutex/workflows/static%20analysis/badge.svg)](https://github.com/yiisoft/mutex/actions?query=workflow%3A%22static+analysis%22)
 [![type-coverage](https://shepherd.dev/github/yiisoft/mutex/coverage.svg)](https://shepherd.dev/github/yiisoft/mutex)
 
-This package provides mutex implementation.
+This package provides mutex implementation and allows mutual execution of concurrent processes in order to prevent
+"race conditions".
+
+This is achieved by using a "lock" mechanism. Each possibly concurrent thread cooperates by acquiring
+a lock before accessing the corresponding data.
 
 ## Requirements
 
@@ -27,6 +31,17 @@ The package could be installed with composer:
 
 ```shell
 composer require yiisoft/mutex --prefer-dist
+```
+
+## Usage
+
+```php
+$mutex = $mutexFactory->create();
+$mutex->acquire();
+// ...
+// business logic execution
+// ...
+$mutex->release();
 ```
 
 ## Mutex drivers

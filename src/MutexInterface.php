@@ -13,25 +13,28 @@ namespace Yiisoft\Mutex;
  * Usage example:
  *
  * ```
- * $lock = $mutex->acquire($mutexName);
+ * $mutex = $mutexFactory->create();
+ * $mutex->acquire();
  * // ...
  * // business logic execution
  * // ...
- * $lock->release();
+ * $mutex->release();
  * ```
  */
 interface MutexInterface
 {
     /**
-     * Acquires a lock by name.
+     * Acquires a lock.
      *
-     * @param string $name Name of the lock to be acquired. Must be unique.
      * @param int $timeout Time (in seconds) to wait for lock to be released. Defaults to zero meaning that method
      * will return false immediately in case lock was already acquired.
      *
      * @throws MutexLockedException
-     *
-     * @return MutexLockInterface
      */
-    public function acquire(string $name, int $timeout = 0): MutexLockInterface;
+    public function acquire(int $timeout = 0): void;
+
+    /**
+     * Releases a lock.
+     */
+    public function release(): void;
 }
