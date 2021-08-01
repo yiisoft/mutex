@@ -36,11 +36,7 @@ composer require yiisoft/mutex --prefer-dist
 ## Usage
 
 ```php
-$mutex = $mutexFactory->create('critical_logic');
-
-if (!$mutex->acquire()) {
-    throw new \RuntimeException('Unable to acquire "critical_logic" mutex.');
-}
+$mutex = $mutexFactory->createAndAcquire('critical_logic');
 
 // ...
 // business logic execution
@@ -60,7 +56,7 @@ There are some mutex drivers available as separate packages:
 - [File](https://github.com/yiisoft/mutex-file)
 
 If you want to provide your own driver, you need to implement `MutexFactoryInterface` and `MutexInterface`.
-When doing the latter, consider using `RetryAcquireTrait` that contains `retryAcquire()` method implementing
+There is ready to extend `MutexFactory` and a `RetryAcquireTrait` that contains `retryAcquire()` method implementing
 the "wait for a lock for a certain time" functionality.
 
 ## Testing
