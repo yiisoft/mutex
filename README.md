@@ -35,13 +35,45 @@ composer require yiisoft/mutex --prefer-dist
 
 ## Usage
 
+There are multiple ways you can use the package. You can execute a callback in a synchronized mode i.e. only a
+single instance of the callback is executed at the same time:
+
 ```php
-$mutex = $mutexFactory->createAndAcquire('critical_logic');
+/** @var \Yiisoft\Mutex\Synchronizer $synchronizer */
+$newCount = $synchronizer->execute('critical', function () {
+    return $counter->increase();
+}, 10);
+```
 
-// ...
-// business logic execution
-// ...
+Another way is to manually open and close mutex:
 
+```php
+/** @var \Yiisoft\Mutex\SimpleMutex $simpleMutex */
+if (!$simpleMutex->acquire('critical', 10)) {
+    throw new \RuntimeException('Unable to acquire mutex "critical".');
+}
+$newCount = $counter->increase();
+$simpleMutex->release('critical');
+```
+
+It could be done on lower level:
+
+```php
+/** @var \Yiisoft\Mutex\MutexFactoryInterface $mutexFactory */
+$mutex = $mutexFactory->createAndAcquire('critical', 10);
+$newCount = $counter->increase();
+$mutex->release();
+```
+
+And if you want even more control, you can acquire mutex manually:
+
+```php
+/** @var \Yiisoft\Mutex\MutexFactoryInterface $mutexFactory */
+$mutex = $mutexFactory->create('critical');
+if (!$mutex->acquire(10)) {
+    throw new \RuntimeException('Unable to acquire mutex "critical".');
+}
+$newCount = $counter->increase();
 $mutex->release();
 ```
 

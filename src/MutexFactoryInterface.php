@@ -20,9 +20,11 @@ interface MutexFactoryInterface
      * Creates a mutex and acquires a lock.
      *
      * @param string $name Name of the mutex to create.
+     * @param int $timeout Time (in seconds) to wait for lock to be released. Defaults to zero meaning that method
+     * will return false immediately in case lock was already acquired.
      * @thows RuntimeException If unable to acquire lock.
      *
      * @return MutexInterface
      */
-    public function createAndAcquire(string $name): MutexInterface;
+    public function createAndAcquire(string $name, int $timeout = 0): MutexInterface;
 }
