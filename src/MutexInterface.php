@@ -12,8 +12,10 @@ namespace Yiisoft\Mutex;
  *
  * Usage example:
  *
- * ```
- * if (!$simpleMutex->acquire('critical_logic', 1000)) {
+ * ```php
+ * $mutex = new MyMutex('critical_logic');
+ *
+ * if (!$mutex->acquire(1000)) {
  *     throw new \RuntimeException('Unable to acquire "critical_logic" mutex.');
  * }
  *
@@ -21,7 +23,7 @@ namespace Yiisoft\Mutex;
  * // business logic execution
  * // ...
  *
- * $simpleMutex->release('critical_logic');
+ * $mutex->release();
  * ```
  */
 interface MutexInterface

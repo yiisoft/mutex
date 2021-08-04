@@ -10,7 +10,7 @@ use RuntimeException;
  * Executes a callback in synchronized mode, i.e. only a single instance of the callback is executed at the same time:
  *
  * ```php
- * $newCount = $synchronizer->execute('critical', function () {
+ * $newCount = $synchronizer->execute('critical_logic', function () {
  *     return $counter->increase();
  * }, 10);
  * ```
@@ -31,6 +31,8 @@ final class Synchronizer
      * @param callable $callback PHP callable to execution.
      * @param int $timeout Time (in seconds) to wait for lock to be released. Defaults to zero meaning that
      * method {@see MutexInterface::acquire()} will return false immediately in case lock was already acquired.
+     *
+     * @throws RuntimeException If unable to acquire lock.
      *
      * @return mixed The result of the PHP callable execution.
      */
