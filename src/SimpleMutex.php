@@ -7,8 +7,9 @@ namespace Yiisoft\Mutex;
 /**
  * Simplest way to use mutex:
  *
- * ```
+ * ```php
  * $mutex = $simpleMutex->acquire('critical_logic');
+ *
  * if (!$mutex->acquire(1000)) {
  *     throw new \RuntimeException('Unable to acquire "critical_logic" mutex.');
  * }
@@ -44,10 +45,12 @@ final class SimpleMutex
     public function acquire(string $name, int $timeout = 0): bool
     {
         $mutex = $this->mutexFactory->create($name);
+
         if ($mutex->acquire($timeout)) {
             $this->acquired[$name] = $mutex;
             return true;
         }
+
         return false;
     }
 
@@ -59,6 +62,7 @@ final class SimpleMutex
         if (!isset($this->acquired[$name])) {
             return;
         }
+
         $this->acquired[$name]->release();
     }
 }
