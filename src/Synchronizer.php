@@ -21,5 +21,6 @@ final class Synchronizer
         }
         $result = $callback();
         $mutex->release();
+        return $result;
     }
 }
