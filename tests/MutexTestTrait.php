@@ -4,83 +4,57 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mutex\Tests;
 
-use Yiisoft\Mutex\Mutex;
+use Yiisoft\Mutex\MutexInterface;
 
 trait MutexTestTrait
 {
-    abstract protected function createMutex(): Mutex;
-
-    /**
-     * @dataProvider mutexDataProvider()
-     */
-    public function testMutexAcquire(string $mutexName): void
+    public function testMutexAcquire(): void
     {
-        $mutex = $this->createMutex();
+        $mutex = $this->createMutex('testMutexAcquire');
 
-        $this->assertTrue($mutex->acquire($mutexName));
-        $this->assertTrue($mutex->release($mutexName));
+        $this->assertTrue($mutex->acquire());
+        $mutex->release();
     }
 
-    /**
-     * @dataProvider mutexDataProvider()
-     */
-    public function testThatMutexLockIsWorking(string $mutexName): void
+    public function testThatMutexLockIsWorking(): void
     {
-        $mutexOne = $this->createMutex();
-        $mutexTwo = $this->createMutex();
+        $mutexOne = $this->createMutex('testThatMutexLockIsWorking');
+        $mutexTwo = $this->createMutex('testThatMutexLockIsWorking');
 
-        $this->assertTrue($mutexOne->acquire($mutexName));
-        $this->assertFalse($mutexTwo->acquire($mutexName));
-        $this->assertTrue($mutexOne->release($mutexName));
-        $this->assertFalse($mutexTwo->release($mutexName));
+        $this->assertTrue($mutexOne->acquire());
+        $this->assertFalse($mutexTwo->acquire());
+        $mutexOne->release();
+        $mutexTwo->release();
 
-        $this->assertTrue($mutexTwo->acquire($mutexName));
-        $this->assertTrue($mutexTwo->release($mutexName));
+        $this->assertTrue($mutexTwo->acquire());
+        $mutexTwo->release();
     }
 
-    /**
-     * @dataProvider mutexDataProvider()
-     */
-    public function testThatMutexLockIsWorkingOnTheSameComponent(string $mutexName): void
+    public function testThatMutexLockIsWorkingOnTheSameComponent(): void
     {
-        $mutex = $this->createMutex();
+        $mutex = $this->createMutex('testThatMutexLockIsWorkingOnTheSameComponent');
 
-        $this->assertTrue($mutex->acquire($mutexName));
-        $this->assertFalse($mutex->acquire($mutexName));
+        $this->assertTrue($mutex->acquire());
+        $this->assertFalse($mutex->acquire());
 
-        $this->assertTrue($mutex->release($mutexName));
-        $this->assertFalse($mutex->release($mutexName));
+        $mutex->release();
+        $mutex->release();
     }
 
     public function testTimeout(): void
     {
         $mutexName = __FUNCTION__;
-        $mutexOne = $this->createMutex();
-        $mutexTwo = $this->createMutex();
+        $mutexOne = $this->createMutex($mutexName);
+        $mutexTwo = $this->createMutex($mutexName);
 
-        $this->assertTrue($mutexOne->acquire($mutexName));
+        $this->assertTrue($mutexOne->acquire());
         $microtime = microtime(true);
-        $this->assertFalse($mutexTwo->acquire($mutexName, 1));
+        $this->assertFalse($mutexTwo->acquire(1));
         $diff = microtime(true) - $microtime;
         $this->assertTrue($diff >= 1 && $diff < 2);
-        $this->assertTrue($mutexOne->release($mutexName));
-        $this->assertFalse($mutexTwo->release($mutexName));
+        $mutexOne->release();
+        $mutexTwo->release();
     }
 
-    public static function mutexDataProvider(): array
-    {
-        $utf = <<<'UTF'
-        𝐘˛𝜄 ӏ𝕤 𝗮 𝔣𝖺𐑈𝝉, 𐑈ℯ𝔠ｕ𝒓𝗲, 𝝰𝞹𝒹 𝖊𝘧𝒇𝗶𝕔𝖎ⅇπτ Ｐ𝘏𝙿 𝖿г𝖺ｍ𝖾ｗσｒ𝐤.
-        𝓕lе𝘅ӏᏏlе 𝞬𝖾𝘁 ϱ𝘳ɑ𝖌ｍ𝛼𝓉ͺ𝖼.
-        𝑊ﮭ𝚛𝛞𝓼 𝔯𝕚𝕘һ𝞃 σ𝚞𝞽 ०𝒇 𝐭𝙝ҽ 𝗯𝘰𝘹.
-        𝓗𝚊𝘀 𝓇𝖾𝙖𝐬ﻬ𝓃𝕒ᖯl𝔢 ꓒ𝘦քα𝗎l𝐭ꜱ.
-        😱
-        UTF;
-
-        return [
-            'simple name' => ['testname'],
-            'long name' => ['Y' . str_repeat('iiiiiiiiii', 1000)],
-            'UTF-8 garbage' => [$utf],
-        ];
-    }
+    abstract protected function createMutex(string $name): MutexInterface;
 }

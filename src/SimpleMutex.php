@@ -1,0 +1,64 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Yiisoft\Mutex;
+
+/**
+ * Simplest way to use mutex:
+ *
+ * ```
+ * $mutex = $simpleMutex->acquire('critical_logic');
+ * if (!$mutex->acquire(1000)) {
+ *     throw new \RuntimeException('Unable to acquire "critical_logic" mutex.');
+ * }
+ *
+ * // ...
+ * // business logic execution
+ * // ...
+ *
+ * $mutex->release();
+ * ```
+ */
+final class SimpleMutex
+{
+    private MutexFactoryInterface $mutexFactory;
+
+    /**
+     * @var MutexInterface[]
+     */
+    private array $acquired = [];
+
+    public function __construct(MutexFactoryInterface $mutexFactory)
+    {
+        $this->mutexFactory = $mutexFactory;
+    }
+
+    /**
+     * Acquires a lock with a given name.
+     *
+     * @param string $name Name of the mutex to acquire.
+     * @param int $timeout Time (in seconds) to wait for lock to be released. Defaults to zero meaning that method
+     * will return false immediately in case lock was already acquired.
+     */
+    public function acquire(string $name, int $timeout = 0): bool
+    {
+        $mutex = $this->mutexFactory->create($name);
+        if ($mutex->acquire($timeout)) {
+            $this->acquired[$name] = $mutex;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Releases a lock with a given name.
+     */
+    public function release(string $name): void
+    {
+        if (!isset($this->acquired[$name])) {
+            return;
+        }
+        $this->acquired[$name]->release();
+    }
+}

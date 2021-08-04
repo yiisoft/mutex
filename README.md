@@ -15,7 +15,11 @@
 [![static analysis](https://github.com/yiisoft/mutex/workflows/static%20analysis/badge.svg)](https://github.com/yiisoft/mutex/actions?query=workflow%3A%22static+analysis%22)
 [![type-coverage](https://shepherd.dev/github/yiisoft/mutex/coverage.svg)](https://shepherd.dev/github/yiisoft/mutex)
 
-This package provides mutex implementation.
+This package provides mutex implementation and allows mutual execution of concurrent processes in order to prevent
+"race conditions".
+
+This is achieved by using a "lock" mechanism. Each possibly concurrent processes cooperates by acquiring
+a lock before accessing the corresponding data.
 
 ## Requirements
 
@@ -29,15 +33,63 @@ The package could be installed with composer:
 composer require yiisoft/mutex --prefer-dist
 ```
 
+## Usage
+
+There are multiple ways you can use the package. You can execute a callback in a synchronized mode i.e. only a
+single instance of the callback is executed at the same time:
+
+```php
+/** @var \Yiisoft\Mutex\Synchronizer $synchronizer */
+$newCount = $synchronizer->execute('critical', function () {
+    return $counter->increase();
+}, 10);
+```
+
+Another way is to manually open and close mutex:
+
+```php
+/** @var \Yiisoft\Mutex\SimpleMutex $simpleMutex */
+if (!$simpleMutex->acquire('critical', 10)) {
+    throw new \RuntimeException('Unable to acquire mutex "critical".');
+}
+$newCount = $counter->increase();
+$simpleMutex->release('critical');
+```
+
+It could be done on lower level:
+
+```php
+/** @var \Yiisoft\Mutex\MutexFactoryInterface $mutexFactory */
+$mutex = $mutexFactory->createAndAcquire('critical', 10);
+$newCount = $counter->increase();
+$mutex->release();
+```
+
+And if you want even more control, you can acquire mutex manually:
+
+```php
+/** @var \Yiisoft\Mutex\MutexFactoryInterface $mutexFactory */
+$mutex = $mutexFactory->create('critical');
+if (!$mutex->acquire(10)) {
+    throw new \RuntimeException('Unable to acquire mutex "critical".');
+}
+$newCount = $counter->increase();
+$mutex->release();
+```
+
 ## Mutex drivers
 
-Mutex drivers are implemented as separate packages:
+There are some mutex drivers available as separate packages:
 
 - [DB - MySQL](https://github.com/yiisoft/mutex-db-mysql)
 - [DB - Oracle](https://github.com/yiisoft/mutex-db-oracle)
 - [DB - Redis](https://github.com/yiisoft/mutex-db-redis)
 - [DB - Postgres](https://github.com/yiisoft/mutex-db-pgsql)
 - [File](https://github.com/yiisoft/mutex-file)
+
+If you want to provide your own driver, you need to implement `MutexFactoryInterface` and `MutexInterface`.
+There is ready to extend `MutexFactory` and a `RetryAcquireTrait` that contains `retryAcquire()` method implementing
+the "wait for a lock for a certain time" functionality.
 
 ## Testing
 
