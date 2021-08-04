@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mutex;
 
-use Closure;
-
 /**
  * Allows retrying acquire with a certain timeout.
  */
@@ -25,7 +23,7 @@ trait RetryAcquireTrait
         return $new;
     }
 
-    private function retryAcquire(int $timeout, Closure $callback): bool
+    private function retryAcquire(int $timeout, callable $callback): bool
     {
         $start = microtime(true);
         do {
