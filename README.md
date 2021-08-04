@@ -81,11 +81,11 @@ $mutex->release();
 
 There are some mutex drivers available as separate packages:
 
-- [DB - MySQL](https://github.com/yiisoft/mutex-db-mysql)
-- [DB - Oracle](https://github.com/yiisoft/mutex-db-oracle)
-- [DB - Redis](https://github.com/yiisoft/mutex-db-redis)
-- [DB - Postgres](https://github.com/yiisoft/mutex-db-pgsql)
 - [File](https://github.com/yiisoft/mutex-file)
+- [PDO MySQL](https://github.com/yiisoft/mutex-pdo-mysql)
+- [PDO Oracle](https://github.com/yiisoft/mutex-pdo-oracle)
+- [PDO Postgres](https://github.com/yiisoft/mutex-pdo-pgsql)
+- [Redis](https://github.com/yiisoft/mutex-db-redis)
 
 If you want to provide your own driver, you need to implement `MutexFactoryInterface` and `MutexInterface`.
 There is ready to extend `MutexFactory` and a `RetryAcquireTrait` that contains `retryAcquire()` method implementing
