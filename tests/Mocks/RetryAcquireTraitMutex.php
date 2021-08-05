@@ -34,4 +34,9 @@ final class RetryAcquireTraitMutex implements MutexInterface
     {
         // do nothing
     }
+
+    public function isReleased(): bool
+    {
+        return true;
+    }
 }
