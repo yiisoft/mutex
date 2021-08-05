@@ -38,14 +38,11 @@ final class Synchronizer
      */
     public function execute(string $name, callable $callback, int $timeout = 0)
     {
-        $mutex = $this->mutexFactory->create($name);
-
-        if (!$mutex->acquire($timeout)) {
-            throw new RuntimeException("Unable to execute synchronized \"$name\".");
-        }
+        $mutex = $this->mutexFactory->createAndAcquire($name, $timeout);
 
         /** @var mixed $result */
         $result = $callback();
+
         $mutex->release();
         return $result;
     }
