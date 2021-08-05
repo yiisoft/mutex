@@ -8,9 +8,9 @@ namespace Yiisoft\Mutex;
  * Simplest way to use mutex:
  *
  * ```php
- * $mutex = $simpleMutex->acquire('critical_logic');
+ * $mutex = new SimpleMutex(new MyMutexFactory());
  *
- * if (!$mutex->acquire(1000)) {
+ * if (!$mutex->acquire('critical_logic', 1000)) {
  *     throw new \RuntimeException('Unable to acquire "critical_logic" mutex.');
  * }
  *

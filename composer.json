@@ -27,9 +27,9 @@
         "vimeo/psalm": "^4.9"
     },
     "suggest": {
-        "yiisoft/mutex-db-mysql": "version ^3.0 to use the MySQL driver for mutex",
-        "yiisoft/mutex-db-oracle": "version ^3.0 to use the Oracle driver for mutex",
-        "yiisoft/mutex-db-pgsql": "version ^3.0 to use the Postgres driver for mutex",
+        "yiisoft/mutex-pdo-mysql": "version ^3.0 to use the MySQL driver for mutex",
+        "yiisoft/mutex-pdo-oracle": "version ^3.0 to use the Oracle driver for mutex",
+        "yiisoft/mutex-pdo-pgsql": "version ^3.0 to use the Postgres driver for mutex",
         "yiisoft/mutex-db-redis": "version ^3.0 to use the Redis driver for mutex",
         "yiisoft/mutex-file": "version ^3.0 to use the File driver for mutex"
     },
