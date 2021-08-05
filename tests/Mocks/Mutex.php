@@ -31,6 +31,11 @@ final class Mutex extends \Yiisoft\Mutex\Mutex
         $this->file = sys_get_temp_dir() . DIRECTORY_SEPARATOR . md5($name) . '.lock';
     }
 
+    public function getFile(): string
+    {
+        return $this->file;
+    }
+
     public function acquire(int $timeout = 0): bool
     {
         return $this->retryAcquire($timeout, function (): bool {

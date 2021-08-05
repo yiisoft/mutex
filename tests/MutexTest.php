@@ -12,6 +12,19 @@ final class MutexTest extends TestCase
 {
     use MutexTestTrait;
 
+    public function testDestruct(): void
+    {
+        $mutex = $this->createMutex('testDestruct');
+
+        $this->assertTrue($mutex->acquire());
+
+        $file = $mutex->getFile();
+        $this->assertFileExists($file);
+
+        unset($mutex);
+        $this->assertFileDoesNotExist($file);
+    }
+
     protected function createMutex(string $name): MutexInterface
     {
         return new Mutex($name);
