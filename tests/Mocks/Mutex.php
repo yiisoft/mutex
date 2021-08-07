@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mutex\Tests\Mocks;
 
+use Yiisoft\Mutex\MutexInterface;
 use Yiisoft\Mutex\RetryAcquireTrait;
 
 use function clearstatcache;
@@ -15,7 +16,7 @@ use function md5;
 use function sys_get_temp_dir;
 use function unlink;
 
-final class Mutex extends \Yiisoft\Mutex\Mutex
+final class Mutex implements MutexInterface
 {
     use RetryAcquireTrait;
 
@@ -29,6 +30,11 @@ final class Mutex extends \Yiisoft\Mutex\Mutex
     public function __construct(string $name)
     {
         $this->file = sys_get_temp_dir() . DIRECTORY_SEPARATOR . md5($name) . '.lock';
+    }
+
+    public function __destruct()
+    {
+        $this->release();
     }
 
     public function getFile(): string
@@ -79,10 +85,5 @@ final class Mutex extends \Yiisoft\Mutex\Mutex
         }
 
         $this->lockResource = null;
-    }
-
-    public function isReleased(): bool
-    {
-        return $this->lockResource === null;
     }
 }

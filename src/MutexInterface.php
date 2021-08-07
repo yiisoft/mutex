@@ -42,11 +42,4 @@ interface MutexInterface
      * Releases a lock.
      */
     public function release(): void;
-
-    /**
-     * Checks whether a lock is released.
-     *
-     * @return bool Whether a lock is released.
-     */
-    public function isReleased(): bool;
 }
