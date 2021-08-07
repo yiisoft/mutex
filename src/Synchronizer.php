@@ -4,12 +4,20 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mutex;
 
+use ErrorException;
 use RuntimeException;
+use Throwable;
+
+use function error_reporting;
+use function restore_error_handler;
+use function set_error_handler;
 
 /**
  * Executes a callback in synchronized mode, i.e. only a single instance of the callback is executed at the same time:
  *
  * ```php
+ * $synchronizer = new Synchronizer(new MyMutexFactory());
+ *
  * $newCount = $synchronizer->execute('critical_logic', function () {
  *     return $counter->increase();
  * }, 10);
@@ -33,6 +41,7 @@ final class Synchronizer
      * method {@see MutexInterface::acquire()} will return false immediately in case lock was already acquired.
      *
      * @throws RuntimeException If unable to acquire lock.
+     * @throws Throwable If an error occurred during the execution of the PHP callable.
      *
      * @return mixed The result of the PHP callable execution.
      */
@@ -40,10 +49,23 @@ final class Synchronizer
     {
         $mutex = $this->mutexFactory->createAndAcquire($name, $timeout);
 
-        /** @var mixed $result */
-        $result = $callback();
+        set_error_handler(static function (int $severity, string $message, string $file, int $line): bool {
+            if (!(error_reporting() & $severity)) {
+                // This error code is not included in error_reporting.
+                return true;
+            }
 
-        $mutex->release();
-        return $result;
+            throw new ErrorException($message, $severity, $severity, $file, $line);
+        });
+
+        try {
+            /** @var mixed $result */
+            return $callback();
+        } catch (Throwable $throwable) {
+            throw $throwable;
+        } finally {
+            restore_error_handler();
+            $mutex->release();
+        }
     }
 }
