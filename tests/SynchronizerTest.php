@@ -63,7 +63,10 @@ final class SynchronizerTest extends TestCase
                 return $undefined;
             });
         } catch (ErrorException $e) {
-            $this->assertSame('Undefined variable $undefined', $e->getMessage());
+            $this->assertSame(
+                PHP_VERSION_ID >= 80000 ? 'Undefined variable $undefined' : 'Undefined variable: undefined',
+                $e->getMessage(),
+            );
         } finally {
             $this->assertTrue($result);
             $this->assertFileNotExists($this->mutex->getFile());
