@@ -33,7 +33,7 @@ final class SynchronizerTest extends TestCase
         });
 
         $this->assertTrue($result);
-        $this->assertFalse(file_exists($this->mutex->getFile()));
+        $this->assertFileNotExists($this->mutex->getFile());
     }
 
     public function testExecuteExceptionThrown(): void
@@ -49,7 +49,7 @@ final class SynchronizerTest extends TestCase
             $this->assertSame('Some error.', $e->getMessage());
         } finally {
             $this->assertTrue($result);
-            $this->assertFalse(file_exists($this->mutex->getFile()));
+            $this->assertFileNotExists($this->mutex->getFile());
         }
     }
 
@@ -66,7 +66,7 @@ final class SynchronizerTest extends TestCase
             $this->assertSame('Undefined variable $undefined', $e->getMessage());
         } finally {
             $this->assertTrue($result);
-            $this->assertFalse(file_exists($this->mutex->getFile()));
+            $this->assertFileNotExists($this->mutex->getFile());
         }
     }
 }
