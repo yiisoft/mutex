@@ -61,8 +61,6 @@ final class Synchronizer
         try {
             /** @var mixed $result */
             return $callback();
-        } catch (Throwable $throwable) {
-            throw $throwable;
         } finally {
             restore_error_handler();
             $mutex->release();
