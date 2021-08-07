@@ -33,6 +33,8 @@ interface MutexInterface
      *
      * @param int $timeout Time (in seconds) to wait for lock to be released. Defaults to zero meaning that method
      * will return false immediately in case lock was already acquired.
+     *
+     * @return bool Whether a lock is acquired.
      */
     public function acquire(int $timeout = 0): bool;
 

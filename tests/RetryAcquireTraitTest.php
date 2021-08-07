@@ -34,4 +34,11 @@ final class RetryAcquireTraitTest extends TestCase
 
         $this->assertFalse($mutex->acquire(1));
     }
+
+    public function testImmutability(): void
+    {
+        $mutex = new RetryAcquireTraitMutex(2);
+
+        $this->assertNotSame($mutex, $mutex->withRetryDelay(1000));
+    }
 }
