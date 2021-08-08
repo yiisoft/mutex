@@ -6,17 +6,25 @@ namespace Yiisoft\Mutex\Tests\Mocks;
 
 use Yiisoft\Mutex\MutexInterface;
 
+use function is_string;
+
 final class MutexFactory extends \Yiisoft\Mutex\MutexFactory
 {
-    private string $class;
+    /**
+     * @var MutexInterface|string
+     */
+    private $classOrObject;
 
-    public function __construct(string $class)
+    /**
+     * @param MutexInterface|string $classOrObject
+     */
+    public function __construct($classOrObject)
     {
-        $this->class = $class;
+        $this->classOrObject = $classOrObject;
     }
 
     public function create(string $name): MutexInterface
     {
-        return new $this->class($name);
+        return is_string($this->classOrObject) ? new $this->classOrObject($name) : $this->classOrObject;
     }
 }
