@@ -100,7 +100,7 @@ public function __destruct()
 }
 ```
 
-or using the shutdown function:
+and shutdown function:
 
 ```php
 public function __construct()
