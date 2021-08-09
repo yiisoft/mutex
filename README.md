@@ -91,6 +91,29 @@ If you want to provide your own driver, you need to implement `MutexFactoryInter
 There is ready to extend `MutexFactory` and a `RetryAcquireTrait` that contains `retryAcquire()` method implementing
 the "wait for a lock for a certain time" functionality.
 
+When implementing your own drivers, you need to take care of automatic unlocking. For example using a destructor:
+
+```php
+public function __destruct()
+{
+    $this->release();
+}
+```
+
+and shutdown function:
+
+```php
+public function __construct()
+{
+    register_shutdown_function(function () {
+        $this->release();
+    });
+}
+```
+
+Note that you should not call the `exit()` or `die()` functions in the destructor or shutdown function. Since calling
+these functions in the destructor and shutdown function will prevent all subsequent completion functions from executing.
+
 ## Testing
 
 ### Unit testing
