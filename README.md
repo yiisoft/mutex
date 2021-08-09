@@ -100,8 +100,19 @@ public function __destruct()
 }
 ```
 
-Note that you do not need to call the `exit()` or `die()` functions in the destructor. Since calling
-these functions in the destructor will prevent all subsequent completion functions from executing. 
+or using the shutdown function:
+
+```php
+public function __construct()
+{
+    register_shutdown_function(function () {
+        $this->release();
+    });
+}
+```
+
+Note that you should not call the `exit()` or `die()` functions in the destructor or shutdown function. Since calling
+these functions in the destructor and shutdown function will prevent all subsequent completion functions from executing.
 
 ## Testing
 
