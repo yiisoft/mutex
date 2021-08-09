@@ -66,5 +66,6 @@ final class SimpleMutex
         }
 
         $this->acquired[$name]->release();
+        unset($this->acquired[$name]);
     }
 }
