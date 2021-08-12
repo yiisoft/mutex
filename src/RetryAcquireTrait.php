@@ -32,6 +32,7 @@ trait RetryAcquireTrait
     private function retryAcquire(int $timeout, callable $callback): bool
     {
         $start = microtime(true);
+
         do {
             if ($callback()) {
                 return true;

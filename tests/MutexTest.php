@@ -5,7 +5,12 @@ declare(strict_types=1);
 namespace Yiisoft\Mutex\Tests;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionObject;
+use RuntimeException;
 use Yiisoft\Mutex\Tests\Mocks\Mutex;
+
+use function md5;
+use function microtime;
 
 final class MutexTest extends TestCase
 {
@@ -78,6 +83,19 @@ final class MutexTest extends TestCase
 
         unset($mutex);
         $this->assertFileDoesNotExist($file);
+    }
+
+    public function testReleaseFailure(): void
+    {
+        $mutexName = 'testReleaseFailure';
+        $mutex = $this->createMutex($mutexName);
+        $reflection = (new ReflectionObject($mutex))->getParentClass();
+        $reflection->setStaticPropertyValue('currentProcessLocks', [md5(Mutex::class . $mutexName) => true]);
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage("Unable to release lock \"$mutexName\".");
+
+        $mutex->release();
     }
 
     private function createMutex(string $name): Mutex
