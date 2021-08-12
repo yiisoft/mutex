@@ -25,7 +25,7 @@ abstract class Mutex implements MutexInterface
 
     public function __construct(string $driverName, string $mutexName)
     {
-        $this->lockName = md5($driverName .  $mutexName);
+        $this->lockName = md5($driverName . $mutexName);
         $this->mutexName = $mutexName;
     }
 
