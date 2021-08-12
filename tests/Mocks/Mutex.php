@@ -28,11 +28,6 @@ final class Mutex extends \Yiisoft\Mutex\Mutex
         parent::__construct(self::class, $name);
     }
 
-    public function __destruct()
-    {
-        $this->release();
-    }
-
     public function getFile(): string
     {
         return $this->file;
