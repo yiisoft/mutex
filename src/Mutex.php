@@ -34,7 +34,7 @@ abstract class Mutex implements MutexInterface
         $this->release();
     }
 
-    public function acquire(int $timeout = 0): bool
+    final public function acquire(int $timeout = 0): bool
     {
         return $this->retryAcquire($timeout, function () use ($timeout): bool {
             if (!$this->isCurrentProcessLocked() && $this->acquireLock($timeout)) {
@@ -45,7 +45,7 @@ abstract class Mutex implements MutexInterface
         });
     }
 
-    public function release(): void
+    final public function release(): void
     {
         if (!$this->isCurrentProcessLocked()) {
             return;
