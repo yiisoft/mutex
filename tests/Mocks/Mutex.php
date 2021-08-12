@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mutex\Tests\Mocks;
 
-use Yiisoft\Mutex\MutexInterface;
-use Yiisoft\Mutex\RetryAcquireTrait;
-
 use function clearstatcache;
 use function fclose;
 use function fileinode;
@@ -16,10 +13,8 @@ use function md5;
 use function sys_get_temp_dir;
 use function unlink;
 
-final class Mutex implements MutexInterface
+final class Mutex extends \Yiisoft\Mutex\Mutex
 {
-    use RetryAcquireTrait;
-
     private string $file;
 
     /**
@@ -30,6 +25,7 @@ final class Mutex implements MutexInterface
     public function __construct(string $name)
     {
         $this->file = sys_get_temp_dir() . DIRECTORY_SEPARATOR . md5($name) . '.lock';
+        parent::__construct(self::class, $name);
     }
 
     public function __destruct()
@@ -42,36 +38,34 @@ final class Mutex implements MutexInterface
         return $this->file;
     }
 
-    public function acquire(int $timeout = 0): bool
+    public function acquireLock(int $timeout = 0): bool
     {
-        return $this->retryAcquire($timeout, function (): bool {
-            $resource = fopen($this->file, 'wb+');
+        $resource = fopen($this->file, 'wb+');
 
-            if ($resource === false) {
-                return false;
-            }
+        if ($resource === false) {
+            return false;
+        }
 
-            if (!flock($resource, LOCK_EX | LOCK_NB)) {
-                fclose($resource);
-                return false;
-            }
+        if (!flock($resource, LOCK_EX | LOCK_NB)) {
+            fclose($resource);
+            return false;
+        }
 
-            if (DIRECTORY_SEPARATOR !== '\\' && fstat($resource)['ino'] !== fileinode($this->file)) {
-                clearstatcache(true, $this->file);
-                flock($resource, LOCK_UN);
-                fclose($resource);
-                return false;
-            }
+        if (DIRECTORY_SEPARATOR !== '\\' && fstat($resource)['ino'] !== fileinode($this->file)) {
+            clearstatcache(true, $this->file);
+            flock($resource, LOCK_UN);
+            fclose($resource);
+            return false;
+        }
 
-            $this->lockResource = $resource;
-            return true;
-        });
+        $this->lockResource = $resource;
+        return true;
     }
 
-    public function release(): void
+    public function releaseLock(): bool
     {
         if ($this->lockResource === null) {
-            return;
+            return false;
         }
 
         if (DIRECTORY_SEPARATOR === '\\') {
@@ -85,5 +79,6 @@ final class Mutex implements MutexInterface
         }
 
         $this->lockResource = null;
+        return true;
     }
 }

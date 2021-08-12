@@ -88,8 +88,8 @@ There are some mutex drivers available as separate packages:
 - [Redis](https://github.com/yiisoft/mutex-db-redis)
 
 If you want to provide your own driver, you need to implement `MutexFactoryInterface` and `MutexInterface`.
-There is ready to extend `MutexFactory` and a `RetryAcquireTrait` that contains `retryAcquire()` method implementing
-the "wait for a lock for a certain time" functionality.
+There is ready to extend `Mutex`, `MutexFactory` and a `RetryAcquireTrait` that contains `retryAcquire()`
+method implementing the "wait for a lock for a certain time" functionality.
 
 When implementing your own drivers, you need to take care of automatic unlocking. For example using a destructor:
 

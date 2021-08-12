@@ -7,6 +7,8 @@ namespace Yiisoft\Mutex\Tests;
 use PHPUnit\Framework\TestCase;
 use Yiisoft\Mutex\Tests\Mocks\Mutex;
 
+use function microtime;
+
 final class MutexTest extends TestCase
 {
     public function testMutexAcquire(): void
