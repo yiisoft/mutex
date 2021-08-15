@@ -29,7 +29,7 @@ abstract class Mutex implements MutexInterface
         $this->mutexName = $mutexName;
     }
 
-    public function __destruct()
+    final public function __destruct()
     {
         $this->release();
     }
