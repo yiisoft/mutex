@@ -8,6 +8,7 @@ use RuntimeException;
 
 /**
  * Creates a mutex instance.
+ *
  * @see MutexFactoryInterface
  */
 abstract class MutexFactory implements MutexFactoryInterface

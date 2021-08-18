@@ -10,6 +10,7 @@ use function md5;
 
 /**
  * Provides basic functionality for creating drivers.
+ *
  * @see MutexFactoryInterface
  */
 abstract class Mutex implements MutexInterface
