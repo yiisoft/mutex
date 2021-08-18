@@ -85,7 +85,7 @@ There are some mutex drivers available as separate packages:
 - [PDO MySQL](https://github.com/yiisoft/mutex-pdo-mysql)
 - [PDO Oracle](https://github.com/yiisoft/mutex-pdo-oracle)
 - [PDO Postgres](https://github.com/yiisoft/mutex-pdo-pgsql)
-- [Redis](https://github.com/yiisoft/mutex-db-redis)
+- [Redis](https://github.com/yiisoft/mutex-redis)
 
 If you want to provide your own driver, you need to implement `MutexFactoryInterface` and `MutexInterface`.
 There is ready to extend `Mutex`, `MutexFactory` and a `RetryAcquireTrait` that contains `retryAcquire()`
