@@ -7,7 +7,8 @@ namespace Yiisoft\Mutex;
 use RuntimeException;
 
 /**
- * Creates a mutex instance {@see MutexFactoryInterface}.
+ * Creates a mutex instance.
+ * @see MutexFactoryInterface
  */
 abstract class MutexFactory implements MutexFactoryInterface
 {
