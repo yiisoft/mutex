@@ -1,6 +1,5 @@
 # Yii Mutex Change Log
 
-
 ## 1.0.1 under development
 
 - no changes in this release.
