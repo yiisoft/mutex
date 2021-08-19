@@ -1,6 +1,6 @@
 # Yii Mutex Change Log
 
-## 1.0.1 under development
+## 1.0.1 August 19, 2021
 
 - no changes in this release.
 
