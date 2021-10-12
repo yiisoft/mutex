@@ -1,6 +1,6 @@
 # Yii Mutex Change Log
 
-## 2.0.0 under development
+## 1.1.0 under development
 
 - New: Add a `MutexException` and throw it instead of `RuntimeException` (devanych)
 
