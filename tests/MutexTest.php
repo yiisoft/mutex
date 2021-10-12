@@ -6,7 +6,7 @@ namespace Yiisoft\Mutex\Tests;
 
 use PHPUnit\Framework\TestCase;
 use ReflectionObject;
-use RuntimeException;
+use Yiisoft\Mutex\MutexException;
 use Yiisoft\Mutex\Tests\Mocks\Mutex;
 
 use function md5;
@@ -92,7 +92,7 @@ final class MutexTest extends TestCase
         $reflection = (new ReflectionObject($mutex))->getParentClass();
         $reflection->setStaticPropertyValue('currentProcessLocks', [md5(Mutex::class . $mutexName) => true]);
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(MutexException::class);
         $this->expectExceptionMessage("Unable to release lock \"$mutexName\".");
 
         $mutex->release();

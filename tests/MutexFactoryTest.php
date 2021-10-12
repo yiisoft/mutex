@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Yiisoft\Mutex\Tests;
 
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
+use Yiisoft\Mutex\MutexException;
 use Yiisoft\Mutex\MutexInterface;
 use Yiisoft\Mutex\Tests\Mocks\Mutex;
 use Yiisoft\Mutex\Tests\Mocks\MutexAcquired;
@@ -31,7 +31,7 @@ final class MutexFactoryTest extends TestCase
     {
         $factory = new MutexFactory(MutexAcquired::class);
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(MutexException::class);
         $this->expectExceptionMessage('Unable to acquire mutex "testCreateAndAcquireFailure".');
 
         $factory->createAndAcquire('testCreateAndAcquireFailure');

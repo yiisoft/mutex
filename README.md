@@ -50,7 +50,7 @@ Another way is to manually open and close mutex:
 ```php
 /** @var \Yiisoft\Mutex\SimpleMutex $simpleMutex */
 if (!$simpleMutex->acquire('critical', 10)) {
-    throw new \RuntimeException('Unable to acquire mutex "critical".');
+    throw new \Yiisoft\Mutex\MutexException('Unable to acquire mutex "critical".');
 }
 $newCount = $counter->increase();
 $simpleMutex->release('critical');
@@ -71,7 +71,7 @@ And if you want even more control, you can acquire mutex manually:
 /** @var \Yiisoft\Mutex\MutexFactoryInterface $mutexFactory */
 $mutex = $mutexFactory->create('critical');
 if (!$mutex->acquire(10)) {
-    throw new \RuntimeException('Unable to acquire mutex "critical".');
+    throw new \Yiisoft\Mutex\MutexException('Unable to acquire mutex "critical".');
 }
 $newCount = $counter->increase();
 $mutex->release();
