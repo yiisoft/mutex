@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mutex;
 
+use Yiisoft\Mutex\Exception\MutexLockedException;
+
 /**
  * Allows you to create a mutex instance.
  */
@@ -23,7 +25,7 @@ interface MutexFactoryInterface
      * @param int $timeout Time (in seconds) to wait for lock to be released. Defaults to zero meaning that
      * method {@see MutexInterface::acquire()} will return false immediately in case lock was already acquired.
      *
-     * @throws MutexException If unable to acquire lock.
+     * @throws MutexLockedException If unable to acquire lock.
      *
      * @return MutexInterface
      */

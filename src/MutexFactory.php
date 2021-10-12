@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mutex;
 
+use Yiisoft\Mutex\Exception\MutexLockedException;
+
 /**
  * Creates a mutex instance.
  *
@@ -16,7 +18,7 @@ abstract class MutexFactory implements MutexFactoryInterface
         $mutex = $this->create($name);
 
         if (!$mutex->acquire($timeout)) {
-            throw new MutexException("Unable to acquire mutex \"$name\".");
+            throw new MutexLockedException("Unable to acquire the \"$name\" mutex.");
         }
 
         return $mutex;

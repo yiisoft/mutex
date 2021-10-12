@@ -2,7 +2,7 @@
 
 ## 1.1.0 under development
 
-- New: Add a `MutexException` and throw it instead of `RuntimeException` (devanych)
+- New: Add `MutexLockedException` and `MutexReleaseException` and throw them instead of `RuntimeException` (devanych)
 
 ## 1.0.1 August 19, 2021
 

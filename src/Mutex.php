@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mutex;
 
+use Yiisoft\Mutex\Exception\MutexReleaseException;
+
 use function md5;
 
 /**
@@ -52,7 +54,7 @@ abstract class Mutex implements MutexInterface
         }
 
         if (!$this->releaseLock()) {
-            throw new MutexException("Unable to release lock \"$this->mutexName\".");
+            throw new MutexReleaseException("Unable to release the \"$this->mutexName\" mutex.");
         }
 
         unset(self::$currentProcessLocks[$this->lockName]);

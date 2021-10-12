@@ -6,6 +6,7 @@ namespace Yiisoft\Mutex;
 
 use ErrorException;
 use Throwable;
+use Yiisoft\Mutex\Exception\MutexLockedException;
 
 use function error_reporting;
 use function restore_error_handler;
@@ -39,7 +40,7 @@ final class Synchronizer
      * @param int $timeout Time (in seconds) to wait for lock to be released. Defaults to zero meaning that
      * method {@see MutexInterface::acquire()} will return false immediately in case lock was already acquired.
      *
-     * @throws MutexException If unable to acquire lock.
+     * @throws MutexLockedException If unable to acquire lock.
      * @throws Throwable If an error occurred during the execution of the PHP callable.
      *
      * @return mixed The result of the PHP callable execution.
