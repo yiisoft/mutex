@@ -1,6 +1,6 @@
 # Yii Mutex Change Log
 
-## 1.1.0 under development
+## 1.1.0 October 19, 2021
 
 - New #45: Add `MutexLockedException` and `MutexReleaseException` and throw them instead of `RuntimeException` (devanych)
 
