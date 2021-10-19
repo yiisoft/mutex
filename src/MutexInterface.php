@@ -16,7 +16,7 @@ namespace Yiisoft\Mutex;
  * $mutex = new MyMutex('critical_logic');
  *
  * if (!$mutex->acquire(1000)) {
- *     throw new \RuntimeException('Unable to acquire "critical_logic" mutex.');
+ *     throw new \Yiisoft\Mutex\Exception\MutexLockedException('Unable to acquire the "critical_logic" mutex.');
  * }
  *
  * // ...

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mutex\Tests\Mocks;
 
-use RuntimeException;
+use Yiisoft\Mutex\Exception\MutexReleaseException;
 use Yiisoft\Mutex\MutexInterface;
 
 final class MutexReleased implements MutexInterface
@@ -29,7 +29,7 @@ final class MutexReleased implements MutexInterface
     public function release(): void
     {
         if ($this->name === null) {
-            throw new RuntimeException('Mutex has already been released.');
+            throw new MutexReleaseException('Mutex has already been released.');
         }
 
         $this->name = null;
