@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Yiisoft\Mutex;
 
+use InvalidArgumentException;
+
 use function microtime;
 use function usleep;
 
@@ -12,6 +14,9 @@ use function usleep;
  */
 trait RetryAcquireTrait
 {
+    /**
+     * @psalm-var positive-int
+     */
     private int $retryDelay = 50;
 
     /**
@@ -24,6 +29,12 @@ trait RetryAcquireTrait
      */
     public function withRetryDelay(int $retryDelay): self
     {
+        if ($retryDelay < 1) {
+            throw new InvalidArgumentException(
+                "Retry delay value must be a positive number greater than zero, \"$retryDelay\" is received.",
+            );
+        }
+
         $new = clone $this;
         $new->retryDelay = $retryDelay;
         return $new;
