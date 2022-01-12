@@ -4,10 +4,9 @@
 
 - no changes in this release.
 
-
 ## 1.1.1 January 12, 2022
 
-- Enh #48 Throw an `InvalidArgumentException` if the retry delay is less than one millisecond (devanych)
+- Enh #48: Throw an `InvalidArgumentException` if the retry delay is less than one millisecond (devanych)
 
 ## 1.1.0 October 19, 2021
 
