@@ -1,7 +1,7 @@
 # Yii Mutex Change Log
 
 
-## 1.1.1 under development
+## 1.1.1 January 12, 2022
 
 - Enh #48 Throw an `InvalidArgumentException` if the retry delay is less than one millisecond (devanych)
 
