@@ -25,11 +25,8 @@ use function set_error_handler;
  */
 final class Synchronizer
 {
-    private MutexFactoryInterface $mutexFactory;
-
-    public function __construct(MutexFactoryInterface $mutexFactory)
+    public function __construct(private MutexFactoryInterface $mutexFactory)
     {
-        $this->mutexFactory = $mutexFactory;
     }
 
     /**

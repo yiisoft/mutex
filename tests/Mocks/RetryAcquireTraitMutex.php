@@ -10,13 +10,10 @@ use Yiisoft\Mutex\RetryAcquireTrait;
 final class RetryAcquireTraitMutex implements MutexInterface
 {
     use RetryAcquireTrait;
-
-    private int $expectedAttempts;
     private int $attemptsCounter = 0;
 
-    public function __construct(int $expectedAttempts)
+    public function __construct(private int $expectedAttempts)
     {
-        $this->expectedAttempts = $expectedAttempts;
     }
 
     public function acquire(int $timeout = 0): bool
