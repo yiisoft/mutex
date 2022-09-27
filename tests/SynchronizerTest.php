@@ -28,7 +28,7 @@ final class SynchronizerTest extends TestCase
 
     public function testExecute(): void
     {
-        $result = $this->synchronizer->execute('testExecute', fn(): bool => file_exists($this->mutex->getFile()));
+        $result = $this->synchronizer->execute('testExecute', fn (): bool => file_exists($this->mutex->getFile()));
 
         $this->assertTrue($result);
         $this->assertFileDoesNotExist($this->mutex->getFile());
