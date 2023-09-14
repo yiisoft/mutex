@@ -9,8 +9,11 @@ use Yiisoft\Mutex\MutexInterface;
 
 final class MutexReleased implements MutexInterface
 {
-    public function __construct(private ?string $name)
+    private ?string $name;
+
+    public function __construct(string $name)
     {
+        $this->name = $name;
     }
 
     public function getName(): ?string

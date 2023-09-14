@@ -11,10 +11,16 @@ use function is_string;
 final class MutexFactory extends \Yiisoft\Mutex\MutexFactory
 {
     /**
+     * @var MutexInterface|string
+     */
+    private $classOrObject;
+
+    /**
      * @param MutexInterface|string $classOrObject
      */
-    public function __construct(private $classOrObject)
+    public function __construct($classOrObject)
     {
+        $this->classOrObject = $classOrObject;
     }
 
     public function create(string $name): MutexInterface

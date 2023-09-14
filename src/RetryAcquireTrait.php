@@ -24,6 +24,8 @@ trait RetryAcquireTrait
      *
      * @param int $retryDelay Number of milliseconds between each try until specified timeout times out.
      * By default, it is 50 milliseconds - it means that we may try to acquire lock up to 20 times per second.
+     *
+     * @return self
      */
     public function withRetryDelay(int $retryDelay): self
     {
