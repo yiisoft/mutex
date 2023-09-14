@@ -25,5 +25,6 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->skip([
         ClosureToArrowFunctionRector::class,
         JsonThrowOnErrorRector::class,
+        __DIR__ . '/tests/SynchronizerTest.php',
     ]);
 };
