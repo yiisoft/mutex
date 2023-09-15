@@ -57,19 +57,21 @@ final class SynchronizerTest extends TestCase
     {
         $result = false;
 
+        $exceptionMessage = null;
         try {
             $this->synchronizer->execute('testExecuteExceptionThrown', function () use (&$result) {
                 $result = file_exists($this->mutex->getFile());
                 return $undefined;
             });
         } catch (ErrorException $e) {
-            $this->assertSame(
-                PHP_VERSION_ID >= 80000 ? 'Undefined variable $undefined' : 'Undefined variable: undefined',
-                $e->getMessage(),
-            );
-        } finally {
-            $this->assertTrue($result);
-            $this->assertFileDoesNotExist($this->mutex->getFile());
+            $exceptionMessage = $e->getMessage();
         }
+
+        $this->assertSame(
+            PHP_VERSION_ID >= 80000 ? 'Undefined variable $undefined' : 'Undefined variable: undefined',
+            $exceptionMessage,
+        );
+        $this->assertTrue($result);
+        $this->assertFileDoesNotExist($this->mutex->getFile());
     }
 }
