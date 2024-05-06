@@ -33,7 +33,7 @@ The package could be installed with [Composer](https://getcomposer.org):
 composer require yiisoft/mutex --prefer-dist
 ```
 
-## Usage
+## General usage
 
 There are multiple ways you can use the package. You can execute a callback in a synchronized mode i.e. only a
 single instance of the callback is executed at the same time:
