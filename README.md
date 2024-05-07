@@ -27,13 +27,13 @@ a lock before accessing the corresponding data.
 
 ## Installation
 
-The package could be installed with composer:
+The package could be installed with [Composer](https://getcomposer.org):
 
 ```shell
-composer require yiisoft/mutex --prefer-dist
+composer require yiisoft/mutex
 ```
 
-## Usage
+## General usage
 
 There are multiple ways you can use the package. You can execute a callback in a synchronized mode i.e. only a
 single instance of the callback is executed at the same time:
@@ -118,10 +118,15 @@ these functions in the destructor and shutdown function will prevent all subsequ
 
 - [Internals](docs/internals.md)
 
-## Support
+If you need help or have a question, the [Yii Forum](https://forum.yiiframework.com/c/yii-3-0/63) is a good place for
+that. You may also check out other [Yii Community Resources](https://www.yiiframework.com/community).
 
-If you need help or have a question, the [Yii Forum](https://forum.yiiframework.com/c/yii-3-0/63) is a good place for that.
-You may also check out other [Yii Community Resources](https://www.yiiframework.com/community).
+## License
+
+The Yii Mutex is free software. It is released under the terms of the BSD License.
+Please see [`LICENSE`](./LICENSE.md) for more information.
+
+Maintained by [Yii Software](https://www.yiiframework.com/).
 
 ## Support the project
 
@@ -134,10 +139,3 @@ You may also check out other [Yii Community Resources](https://www.yiiframework.
 [![Telegram](https://img.shields.io/badge/telegram-join-1DA1F2?style=flat&logo=telegram)](https://t.me/yii3en)
 [![Facebook](https://img.shields.io/badge/facebook-join-1DA1F2?style=flat&logo=facebook&logoColor=ffffff)](https://www.facebook.com/groups/yiitalk)
 [![Slack](https://img.shields.io/badge/slack-join-1DA1F2?style=flat&logo=slack)](https://yiiframework.com/go/slack)
-
-## License
-
-The Yii Mutex is free software. It is released under the terms of the BSD License.
-Please see [`LICENSE`](./LICENSE.md) for more information.
-
-Maintained by [Yii Software](https://www.yiiframework.com/).
