@@ -30,7 +30,7 @@ a lock before accessing the corresponding data.
 The package could be installed with [Composer](https://getcomposer.org):
 
 ```shell
-composer require yiisoft/mutex --prefer-dist
+composer require yiisoft/mutex
 ```
 
 ## General usage
@@ -118,8 +118,8 @@ these functions in the destructor and shutdown function will prevent all subsequ
 
 - [Internals](docs/internals.md)
 
-If you need help or have a question, the [Yii Forum](https://forum.yiiframework.com/c/yii-3-0/63) is a good place for that.
-You may also check out other [Yii Community Resources](https://www.yiiframework.com/community).
+If you need help or have a question, the [Yii Forum](https://forum.yiiframework.com/c/yii-3-0/63) is a good place for
+that. You may also check out other [Yii Community Resources](https://www.yiiframework.com/community).
 
 ## License
 
