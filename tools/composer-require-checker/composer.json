@@ -1,0 +1,5 @@
+{
+    "require-dev": {
+        "maglnet/composer-require-checker": "^3.8 || ^4.2"
+    }
+}
