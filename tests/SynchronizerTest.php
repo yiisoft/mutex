@@ -13,6 +13,8 @@ use Yiisoft\Mutex\Tests\Mocks\MutexFactory;
 
 use function file_exists;
 
+use const PHP_VERSION_ID;
+
 final class SynchronizerTest extends TestCase
 {
     private Mutex $mutex;

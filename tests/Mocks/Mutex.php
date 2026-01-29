@@ -13,6 +13,11 @@ use function md5;
 use function sys_get_temp_dir;
 use function unlink;
 
+use const DIRECTORY_SEPARATOR;
+use const LOCK_EX;
+use const LOCK_NB;
+use const LOCK_UN;
+
 final class Mutex extends \Yiisoft\Mutex\Mutex
 {
     private string $file;

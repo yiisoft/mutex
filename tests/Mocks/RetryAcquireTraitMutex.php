@@ -26,7 +26,7 @@ final class RetryAcquireTraitMutex implements MutexInterface
             function () {
                 $this->attemptsCounter++;
                 return $this->expectedAttempts === $this->attemptsCounter;
-            }
+            },
         );
     }
 
