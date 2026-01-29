@@ -6,6 +6,4 @@ namespace Yiisoft\Mutex\Exception;
 
 use RuntimeException;
 
-final class MutexLockedException extends RuntimeException
-{
-}
+final class MutexLockedException extends RuntimeException {}

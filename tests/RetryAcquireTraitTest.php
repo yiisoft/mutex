@@ -8,6 +8,8 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Yiisoft\Mutex\Tests\Mocks\RetryAcquireTraitMutex;
 
+use const DIRECTORY_SEPARATOR;
+
 final class RetryAcquireTraitTest extends TestCase
 {
     public function testRetryAcquireSuccess(): void
