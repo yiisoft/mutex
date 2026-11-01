@@ -12,6 +12,7 @@ $finder = (new Finder())->in([
 ]);
 
 return ConfigBuilder::build()
+    ->setCacheFile(__DIR__ . '/runtime/.php-cs-fixer.cache')
     ->setRiskyAllowed(true)
     ->setParallelConfig(ParallelConfigFactory::detect())
     ->setRules([
