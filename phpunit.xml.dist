@@ -11,6 +11,7 @@
     stopOnFailure="false"
     executionOrder="random"
     resolveDependencies="true"
+    cacheResultFile="runtime/.phpunit.result.cache"
 >
     <php>
         <ini name="error_reporting" value="-1"/>
