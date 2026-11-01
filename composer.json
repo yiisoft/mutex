@@ -37,7 +37,7 @@
         "shipmonk/composer-dependency-analyser": "^1.8",
         "spatie/phpunit-watcher": "^1.23.6",
         "vimeo/psalm": "^4.30 || ^5.26.1 || ^6.8.8",
-        "yiisoft/code-style": "^1.0"
+        "yiisoft/code-style": "^1.1"
     },
     "suggest": {
         "yiisoft/mutex-file": "Use the File driver for mutex",
@@ -68,6 +68,7 @@
         "test": "phpunit --testdox --no-interaction",
         "test-watch": "phpunit-watcher watch",
         "cs-fix": "php-cs-fixer fix",
+        "rector": "rector",
         "dependency-analyser": "composer-dependency-analyser"
     }
 }
