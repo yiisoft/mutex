@@ -1,6 +1,6 @@
 # Yii Mutex Change Log
 
-## 1.1.2 under development
+## 1.1.2 November 21, 2026
 
 - Chg #74, #94: Change PHP constraint in `composer.json` to `7.4.* || 8.0 - 8.6` (@vjik)
 - Chg #93: Replace Psalm with PHPStan (@vjik)
