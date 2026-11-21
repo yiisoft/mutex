@@ -15,7 +15,7 @@ use function usleep;
 trait RetryAcquireTrait
 {
     /**
-     * @psalm-var positive-int
+     * @var positive-int
      */
     private int $retryDelay = 50;
 

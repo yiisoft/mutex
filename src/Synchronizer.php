@@ -59,7 +59,6 @@ final class Synchronizer
         });
 
         try {
-            /** @var mixed $result */
             return $callback();
         } finally {
             restore_error_handler();
