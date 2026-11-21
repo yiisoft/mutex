@@ -2,7 +2,7 @@
 
 ## 1.1.2 under development
 
-- Chg #74: Change PHP constraint in `composer.json` to `7.4.* || 8.0 - 8.4` (@vjik)
+- Chg #74, #94: Change PHP constraint in `composer.json` to `7.4.* || 8.0 - 8.6` (@vjik)
 - Chg #93: Replace Psalm with PHPStan (@vjik)
 
 ## 1.1.1 January 12, 2022
