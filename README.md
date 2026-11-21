@@ -21,7 +21,7 @@ a lock before accessing the corresponding data.
 
 ## Requirements
 
-- PHP 7.4 or higher.
+- PHP 7.4 - 8.6.
 
 ## Installation
 
